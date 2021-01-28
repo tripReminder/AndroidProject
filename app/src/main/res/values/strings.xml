@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Trip Reminder</string>
+    <string name="showDetails">Show Details</string>
+    <string name="delete">Delete</string>
 </resources>
