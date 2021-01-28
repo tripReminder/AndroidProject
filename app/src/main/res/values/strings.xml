@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Trip Reminder</string>
+    <string name="timeLbl">Time:</string>
+    <string name="typeLbl">Type:</string>
+    <string name="fromLbl">From:</string>
+    <string name="toLbl">To:</string>
+    <string name="startBtn">Start</string>
 </resources>
