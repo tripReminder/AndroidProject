@@ -24,7 +24,7 @@ public class TripsHistory extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(),trips);
+        HistoryAdapter adapter = new HistoryAdapter(getApplicationContext(),trips);
         recyclerView.setAdapter(adapter);
     }
 }

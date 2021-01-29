@@ -7,17 +7,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private Trip[] details;
     private LayoutInflater inflater;
     Context context;
 
-    public RecyclerViewAdapter(Context context, Trip[] details) {
+    public HistoryAdapter(Context context, Trip[] details) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.details = details;
