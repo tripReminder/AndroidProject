@@ -1,113 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="false"
+    tools:context=".NewTrip">
 
-    <EditText
-        android:id="@+id/edtTripName"
-        android:layout_width="323dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/trip_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edtEndPoint"
-        android:layout_width="324dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="44dp"
-        android:ems="10"
-        android:hint="@string/end_point"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edtStartPoint"
-        app:layout_constraintTop_toBottomOf="@+id/edtStartPoint" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="810dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/trip_details"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/edtEndPoint"
-        app:layout_constraintTop_toBottomOf="@+id/edtEndPoint" />
+            <EditText
+                android:id="@+id/edtTripName"
+                android:layout_width="316dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="56dp"
+                android:ems="10"
+                android:hint="@string/trip_name"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="89dp"
-        android:layout_height="69dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.582"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:srcCompat="@android:drawable/ic_menu_today" />
+            <EditText
+                android:id="@+id/edtEndPoint"
+                android:layout_width="324dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="44dp"
+                android:ems="10"
+                android:hint="@string/end_point"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/edtStartPoint"
+                app:layout_constraintTop_toBottomOf="@+id/edtStartPoint" />
 
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="133dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="40dp"
-        app:layout_constraintStart_toEndOf="@+id/spinner1"
-        app:layout_constraintTop_toTopOf="@+id/spinner1" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="@string/trip_details"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="@+id/edtNotes"
+                app:layout_constraintTop_toBottomOf="@+id/edtNotes" />
 
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/spinner1"
-        app:layout_constraintTop_toBottomOf="@+id/spinner1"
-        app:layout_constraintVertical_bias="0.493" />
+            <ImageView
+                android:id="@+id/imageDate"
+                android:layout_width="89dp"
+                android:layout_height="69dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.582"
+                app:layout_constraintStart_toEndOf="@+id/imageTime"
+                app:layout_constraintTop_toTopOf="@+id/imageTime"
+                app:srcCompat="@android:drawable/ic_menu_today" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="149dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:entries="@array/trip_repetition"
+                app:layout_constraintStart_toEndOf="@+id/spinner1"
+                app:layout_constraintTop_toTopOf="@+id/spinner1" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toEndOf="@+id/btnAdd"
-        app:layout_constraintTop_toTopOf="@+id/btnAdd" />
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:text="@string/add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/spinner1"
+                app:layout_constraintTop_toBottomOf="@+id/spinner1"
+                app:layout_constraintVertical_bias="0.493" />
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="133dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:entries="@array/trip_type"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            <ImageView
+                android:id="@+id/imageTime"
+                android:layout_width="96dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
-    <EditText
-        android:id="@+id/edtStartPoint"
-        android:layout_width="322dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="@string/start_point"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/edtTripName"
-        app:layout_constraintTop_toBottomOf="@+id/edtTripName" />
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="64dp"
+                android:text="@android:string/cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.595"
+                app:layout_constraintStart_toEndOf="@+id/btnAdd"
+                app:layout_constraintTop_toTopOf="@+id/btnAdd" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="150dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="68dp"
+                android:entries="@array/trip_type"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+
+            <EditText
+                android:id="@+id/edtStartPoint"
+                android:layout_width="322dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="44dp"
+                android:ems="10"
+                android:hint="@string/start_point"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/edtTripName"
+                app:layout_constraintTop_toBottomOf="@+id/edtTripName" />
+
+            <EditText
+                android:id="@+id/edtNotes"
+                android:layout_width="325dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/notes"
+                android:inputType="textMultiLine"
+                app:layout_constraintStart_toStartOf="@+id/edtEndPoint"
+                app:layout_constraintTop_toBottomOf="@+id/edtEndPoint" />
+
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="94dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/imageTime"
+                app:layout_constraintTop_toBottomOf="@+id/imageTime"
+                tools:text="0000" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="94dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/imageDate"
+                app:layout_constraintTop_toBottomOf="@+id/imageDate"
+                tools:text="0000" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>
