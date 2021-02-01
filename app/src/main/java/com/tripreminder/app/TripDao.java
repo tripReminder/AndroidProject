@@ -5,7 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 @Dao
-public interface TripsDao {
+public interface TripDao {
 
     @Insert
     void insert(Trip trips);
