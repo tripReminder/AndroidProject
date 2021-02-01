@@ -30,14 +30,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        int id = data[position].getTrip_id();
+         int id = data[position].getTrip_id();
         String title = data[position].getTitle();
         String time = data[position].getTime();
         String type = data[position].getType();
         String from = data[position].getFrom();
         String to = data[position].getTo();
 
-        holder.trip_id = id;
+         holder.trip_id = id;
         holder.titleLbl.setText(title);
         holder.timeLbl.setText(time);
         holder.typeLbl.setText(type);

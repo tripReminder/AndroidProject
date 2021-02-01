@@ -37,15 +37,20 @@ public class UpcomingTrip extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //final String id = UUID.randomUUID().toString();
-        //tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-        //Trip[] trips = tripViewModel.getAll(false);
-        Trip[] trips = new Trip[4];
+       Trip[] trips = new Trip[4];
         trips[0] = new Trip(1, "Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[1] = new Trip(2, "Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
-        trips[2] = new Trip(3, "Aswan", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
+        trips[2] = new Trip(3, "Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[3] = new Trip(4, "Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
 
+       // final String id = UUID.randomUUID().toString();
+         tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
+       tripViewModel.insert(trips[3]);
+         tripViewModel.getAll(false);
+
+         while (!tripViewModel.flag){
+             trips = tripViewModel.temp();
+         }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
