@@ -1,44 +1,72 @@
 package com.tripreminder.app;
 
 import android.app.Application;
-import android.app.AsyncNotedAppOp;
-import android.os.AsyncTask;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.loader.content.AsyncTaskLoader;
+import androidx.lifecycle.LiveData;
 
 public class TripViewModel extends AndroidViewModel {
-
-    private String TAG =this.getClass().getSimpleName();
+    static Trip [] trips = new Trip[4];
+    static boolean flag= false;
+    //private String TAG = this.getClass().getSimpleName();
     private TripDao tripDao;
-    private TripDatabase tripDB;
+    private TripRoomDatabase tripRoomDatabase;
 
-    public TripViewModel( Application application) {
+    public TripViewModel(@NonNull Application application) {
         super(application);
-        tripDB = TripDatabase.getDatabase(application);
-        tripDao = tripDB.tripDao();
+
+        tripRoomDatabase = TripRoomDatabase.getDatabase(application);
+        tripDao = tripRoomDatabase.tripDao();
     }
+
     public void insert(Trip trip){
-        new InsertAsyncTask(tripDao).execute(trip);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                tripDao.insert(trip);
+            }
+        }.start();
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        Log.i(TAG,"ViewModel Destroyed");
+    public void getAll(boolean status){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                trips = tripDao.getAll(status);
+                flag = true;
+            }
+        }.start();
     }
-    private class InsertAsyncTask extends AsyncTask<Trip ,Void,Void> {
-        TripDao mtripDao;
 
-        public InsertAsyncTask(TripDao mtripDao) {
-            this.mtripDao= mtripDao;
-        }
+    public Trip[] temp(){
+        return trips;
+    }
 
-        @Override
-        protected Void doInBackground(Trip... trips) {
-            mtripDao.insert(trips[0]);
-            return null;
-        }
+    public Trip getTrip(int id){
+        Trip trip = tripDao.getTrip(id);
+        return trip;
+    }
+
+    public void update(Trip trip){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                tripDao.update(trip);
+            }
+        }.start();
+    }
+
+    public void delete(Trip trip){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                tripDao.delete(trip);
+            }
+        }.start();
     }
 }

@@ -1,6 +1,7 @@
 package com.tripreminder.app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -31,6 +32,7 @@ public class NewTrip extends AppCompatActivity  {
     EditText startPoint;
     EditText endPoint;
     EditText note;
+    TripViewModel tripViewModel;
     public static final String TRIP_ADDED= "new_trip";
 
     @Override
@@ -75,11 +77,6 @@ public class NewTrip extends AppCompatActivity  {
                 trip_type = spinner.getSelectedItem().toString();
                 trip_repeation=spinner2.getSelectedItem().toString();
 
-                Intent resultIntent = new Intent();
-                if(TextUtils.isEmpty(tripName.getText())){
-                    setResult(RESULT_CANCELED,resultIntent);
-                }else{
-                    //saveData();
                     String t_title = tripName.getText().toString();
                     String t_time = txtTime.getText().toString();
                     String t_Date = txtDate.getText().toString();
@@ -89,12 +86,12 @@ public class NewTrip extends AppCompatActivity  {
                     String t_repeation = trip_repeation;
                     String t_note = note.getText().toString();
 
-                    resultIntent.putExtra(TRIP_ADDED,t_title);
-                    setResult(RESULT_OK,resultIntent);
-                }
+                tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
+                Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
+                        t_repeation,t_note);
+                tripViewModel.insert(model);
+                Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
                 finish();
-
-
 
             }
         });
@@ -109,18 +106,6 @@ public class NewTrip extends AppCompatActivity  {
 
    /* private void saveData() {
 
-        String t_title = tripName.getText().toString();
-        String t_time = txtTime.getText().toString();
-        String t_Date = txtDate.getText().toString();
-        String t_type = trip_type;
-        String t_from = startPoint.getText().toString();
-        String t_to = endPoint.getText().toString();
-        String t_repeation = trip_repeation;
-        String t_note = note.getText().toString();
-
-
-
-        /*
         Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
                 t_repeation,t_note);
 
