@@ -1,57 +1,91 @@
 package com.tripreminder.app;
 
-public class Trip {
-    private String title;
-    private String time;
-    private String type;
-    private String from;
-    private String to;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public Trip(String title, String time, String type, String from, String to) {
+@Entity(tableName = "Trips")
+public class Trip {
+    @PrimaryKey
+    @NonNull
+    private int trip_id;
+    @NonNull
+    private String title;
+    @NonNull
+    private boolean status;
+    @NonNull
+    private String imagePath;
+    @NonNull
+    private String time;
+    @NonNull
+    private String date;
+    @NonNull
+    private String type;
+    @NonNull
+    private String from;
+    @NonNull
+    private String to;
+    @NonNull
+    private String repetition;
+    @NonNull
+    private String note;
+
+    public Trip(int trip_id, String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
+        this.trip_id = trip_id;
         this.title = title;
+        this.status = status;
+        this.imagePath = imagePath;
         this.time = time;
+        this.date = date;
         this.type = type;
         this.from = from;
         this.to = to;
+        this.repetition = repetition;
+        this.note = note;
+    }
+
+    public int getTrip_id() {
+        return trip_id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public boolean getStatus() {
+        return status;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public String getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getDate() {
+        return date;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getFrom() {
         return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
     }
 
     public String getTo() {
         return to;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public String getRepetition() {
+        return repetition;
+    }
+
+    public String getNote() {
+        return note;
     }
 }
