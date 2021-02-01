@@ -70,3 +70,4 @@ public class TripViewModel extends AndroidViewModel {
         }.start();
     }
 }
+

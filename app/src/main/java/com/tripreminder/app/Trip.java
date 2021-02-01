@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Trips")
 public class Trip {
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private int trip_id;
     @NonNull
@@ -32,8 +33,7 @@ public class Trip {
     @NonNull
     private String note;
 
-    public Trip(int trip_id, String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
-        this.trip_id = trip_id;
+    public Trip( String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
         this.title = title;
         this.status = status;
         this.imagePath = imagePath;
@@ -88,5 +88,9 @@ public class Trip {
 
     public String getNote() {
         return note;
+    }
+
+    public void setTrip_id(int trip_id) {
+        this.trip_id = trip_id;
     }
 }
