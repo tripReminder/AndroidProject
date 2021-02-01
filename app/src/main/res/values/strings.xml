@@ -5,4 +5,5 @@
     <string name="fromLbl">From:</string>
     <string name="toLbl">To:</string>
     <string name="startBtn">Start</string>
+    <string name="addBtn">+</string>
 </resources>
