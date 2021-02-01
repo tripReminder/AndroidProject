@@ -8,13 +8,13 @@ import androidx.lifecycle.AndroidViewModel;
 public class TripViewModel extends AndroidViewModel {
     static Trip [] trips = new Trip[4];
     static boolean flag= false;
-    private TripsDao tripDao;
-    private TripsDatabase tripRoomDatabase;
+    private TripDao tripDao;
+    private TripRoomDatabase tripRoomDatabase;
 
     public TripViewModel(@NonNull Application application) {
         super(application);
 
-        tripRoomDatabase = TripsDatabase.getDatabase(application);
+        tripRoomDatabase = TripRoomDatabase.getDatabase(application);
         tripDao = tripRoomDatabase.tripDao();
     }
 
