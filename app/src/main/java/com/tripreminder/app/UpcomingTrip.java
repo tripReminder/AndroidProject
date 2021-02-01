@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UpcomingTrip extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    FloatingActionButton addBtn;
+    FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
 
     @Override
@@ -25,11 +25,20 @@ public class UpcomingTrip extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_trip);
         addBtn = findViewById(R.id.addBtn);
+        historyBtn = findViewById(R.id.historyBtn);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
+                startActivity(intent);
+            }
+        });
+
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
                 startActivity(intent);
             }
         });
