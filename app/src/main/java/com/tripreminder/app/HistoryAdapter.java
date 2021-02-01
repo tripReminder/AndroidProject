@@ -7,59 +7,71 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
-    private Trip[] details;
+    private Trip[] data;
     private LayoutInflater inflater;
     Context context;
 
-    public HistoryAdapter(Context context, Trip[] details) {
+    HistoryAdapter(Context context, Trip[] data) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.details = details;
+        this.data = data;
     }
 
-    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.single_trip, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.TxtTripName.setText(details[position].getTitle());
-        holder.check.setImageResource(details[position].getStatusImg());
-        holder.placeimg.setImageResource(details[position].getTripPic());
+        int id = data[position].getTrip_id();
+        String title = data[position].getTitle();
+        int status = data[position].getStatus();
+        int image = data[position].getImagePath();
+
+        holder.trip_id = id;
+        holder.title.setText(title);
+        holder.status.setImageResource(status);
+        holder.trippic.setImageResource(image);
     }
 
     @Override
     public int getItemCount() {
-        return details.length;
+        return data.length;
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public View Layout;
-        public TextView TxtTripName;
-        public Button btnDetails, btnCancel;
-        public ImageView check, placeimg;
-        public ConstraintLayout constraintLayout;
+        int trip_id;
+        View view;
+        TextView title;
+        ImageView status, trippic;
+        Button show, delete;
 
         ViewHolder(View itemView) {
             super(itemView);
-            Layout = itemView;
-            TxtTripName = itemView.findViewById(R.id.nameTxt);
-            check = itemView.findViewById(R.id.statusImg);
-            placeimg = itemView.findViewById(R.id.tripimg);
-            btnDetails = itemView.findViewById(R.id.showBtn);
-            btnCancel = itemView.findViewById(R.id.deleteBtn);
+            view = itemView;
+            title = itemView.findViewById(R.id.nameTxt);
+            status = itemView.findViewById(R.id.statusImg);
+            trippic = itemView.findViewById(R.id.tripimg);
+            show= itemView.findViewById(R.id.showBtn);
+            delete = itemView.findViewById(R.id.deleteBtn);
 
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, title.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
