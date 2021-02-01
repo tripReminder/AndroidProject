@@ -4,12 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+
 
 public class TripViewModel extends AndroidViewModel {
     static Trip [] trips = new Trip[4];
     static boolean flag= false;
-    //private String TAG = this.getClass().getSimpleName();
     private TripDao tripDao;
     private TripRoomDatabase tripRoomDatabase;
 
@@ -70,4 +69,3 @@ public class TripViewModel extends AndroidViewModel {
         }.start();
     }
 }
-

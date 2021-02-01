@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TripReminder">
         <activity android:name=".NewTrip"></activity>
+        <activity android:name=".TripsHistory"></activity>
         <activity android:name=".UpcomingTrip">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

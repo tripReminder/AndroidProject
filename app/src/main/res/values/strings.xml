@@ -30,4 +30,6 @@
         <item>Repeat Weekly</item>
         <item>Repeat Monthly</item>
     </string-array>
+    <string name="showDetails">Show Details</string>
+    <string name="delete">Delete</string>
 </resources>

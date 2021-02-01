@@ -10,7 +10,6 @@ import androidx.room.RoomDatabase;
 public abstract class TripRoomDatabase  extends RoomDatabase {
 
     public abstract TripDao tripDao();
-
     private static volatile TripRoomDatabase tripRoomInstance;
 
     static TripRoomDatabase getDatabase(final Context context){
@@ -20,6 +19,7 @@ public abstract class TripRoomDatabase  extends RoomDatabase {
                     tripRoomInstance = Room.databaseBuilder(context.getApplicationContext(),
                             TripRoomDatabase.class, "trip_database")
                             .build();
+
                 }
             }
         }

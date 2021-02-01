@@ -46,10 +46,15 @@ public class Trip {
         this.note = note;
     }
 
+    public void setTrip_id(int trip_id) {
+        this.trip_id = trip_id;
+    }
+
     public int getTrip_id() {
         return trip_id;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
@@ -58,39 +63,43 @@ public class Trip {
         return status;
     }
 
+    @NonNull
     public String getImagePath() {
         return imagePath;
     }
 
+    @NonNull
     public String getTime() {
         return time;
     }
 
+    @NonNull
     public String getDate() {
         return date;
     }
 
+    @NonNull
     public String getType() {
         return type;
     }
 
+    @NonNull
     public String getFrom() {
         return from;
     }
 
+    @NonNull
     public String getTo() {
         return to;
     }
 
+    @NonNull
     public String getRepetition() {
         return repetition;
     }
 
+    @NonNull
     public String getNote() {
         return note;
-    }
-
-    public void setTrip_id(int trip_id) {
-        this.trip_id = trip_id;
     }
 }
