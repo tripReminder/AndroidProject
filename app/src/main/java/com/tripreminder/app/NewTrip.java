@@ -1,5 +1,6 @@
 package com.tripreminder.app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -20,7 +21,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+
+import javax.net.ssl.SSLEngineResult;
 
 public class NewTrip extends AppCompatActivity  {
     Spinner spinner , spinner2;
@@ -102,9 +115,46 @@ public class NewTrip extends AppCompatActivity  {
             }
         });
 
+        Places.initialize(getApplicationContext(), "AIzaSyBNzGxWu5UWgITiyHulPmhJBDcniPf-bEY");
+
+        startPoint.setFocusable(false);
+        startPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(NewTrip.this);
+                startActivityForResult(intent, 100);
+            }
+        });
+
+        endPoint.setFocusable(false);
+        endPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(NewTrip.this);
+                startActivityForResult(intent, 200);
+            }
+        });
     }
 
-   /* private void saveData() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            startPoint.setText(place.getAddress());
+        }else if(requestCode == 200 && resultCode == RESULT_OK){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            endPoint.setText(place.getAddress());
+        }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /* private void saveData() {
 
         Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
                 t_repeation,t_note);

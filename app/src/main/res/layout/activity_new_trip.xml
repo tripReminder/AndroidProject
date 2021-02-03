@@ -37,6 +37,7 @@
                 android:ems="10"
                 android:hint="@string/end_point"
                 android:inputType="textPersonName"
+                android:drawableLeft="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/edtStartPoint"
                 app:layout_constraintTop_toBottomOf="@+id/edtStartPoint" />
 
@@ -119,6 +120,7 @@
                 android:ems="10"
                 android:hint="@string/start_point"
                 android:inputType="textPersonName"
+                android:drawableLeft="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/edtTripName"
                 app:layout_constraintTop_toBottomOf="@+id/edtTripName" />
 
