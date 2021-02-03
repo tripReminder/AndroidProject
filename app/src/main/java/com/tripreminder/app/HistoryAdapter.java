@@ -34,13 +34,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         int id = data[position].getTrip_id();
         String title = data[position].getTitle();
-        int status = data[position].getStatus();
-        int image = data[position].getImagePath();
+        boolean status = data[position].getStatus();
+        String image = data[position].getImagePath();
 
         holder.trip_id = id;
         holder.title.setText(title);
-        holder.status.setImageResource(status);
-        holder.trippic.setImageResource(image);
+        if(status)
+            holder.status.setImageResource((Integer)1);
+        else
+            holder.status.setImageResource((Integer)0);
+        //holder.trippic.setImageResource((Integer)1);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+
 public class TripViewModel extends AndroidViewModel {
     static Trip [] trips = new Trip[4];
     static boolean flag= false;
@@ -28,13 +29,13 @@ public class TripViewModel extends AndroidViewModel {
         }.start();
     }
 
-    public void getAll(int status){
+    public void getAll(boolean status){
         new Thread(){
             @Override
             public void run() {
                 super.run();
-                trips = tripDao.getAll(status);
-                flag = true;
+                 trips = tripDao.getAll(status);
+                 flag = true;
             }
         }.start();
     }
@@ -43,5 +44,28 @@ public class TripViewModel extends AndroidViewModel {
         return trips;
     }
 
+    public Trip getTrip(int id){
+        Trip trip = tripDao.getTrip(id);
+        return trip;
+    }
 
+    public void update(Trip trip){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                tripDao.update(trip);
+            }
+        }.start();
+    }
+
+    public void delete(Trip trip){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                tripDao.delete(trip);
+            }
+        }.start();
+    }
 }

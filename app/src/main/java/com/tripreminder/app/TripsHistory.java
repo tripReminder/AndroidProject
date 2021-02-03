@@ -24,15 +24,15 @@ public class TripsHistory extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Trip[] trips = new Trip[4];
-        trips[0] = new Trip(1, "Alex", 0, 0);
-        trips[1] = new Trip(2, "Cairo", 1, 0);
-        trips[2] = new Trip(3, "Aswan", 0, 0);
-        trips[3] = new Trip(4, "Portsaid", 1, 0);
+//        trips[0] = new Trip("Alex", 0, 0);
+//        trips[1] = new Trip("Cairo", 1, 0);
+//        trips[2] = new Trip(3, "Aswan", 0, 0);
+//        trips[3] = new Trip(4, "Portsaid", 1, 0);
 
         // final String id = UUID.randomUUID().toString();
         viewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-        viewModel.insert(trips[3]);
-        viewModel.getAll(0);
+        //viewModel.insert(trips[3]);
+        viewModel.getAll(false);
 
         while (!viewModel.flag){
             trips = viewModel.temp();
