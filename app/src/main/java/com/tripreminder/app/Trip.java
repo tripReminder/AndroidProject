@@ -33,7 +33,13 @@ public class Trip {
     @NonNull
     private String note;
 
-    public Trip( String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
+
+    // constructor for add a trip to firebase
+    public Trip() {
+
+    }
+
+    public Trip(String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
         this.title = title;
         this.status = status;
         this.imagePath = imagePath;
@@ -49,6 +55,51 @@ public class Trip {
     public void setTrip_id(int trip_id) {
         this.trip_id = trip_id;
     }
+
+
+    // setter for firebase
+    public void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public void setImagePath(@NonNull String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setTime(@NonNull String time) {
+        this.time = time;
+    }
+
+    public void setDate(@NonNull String date) {
+        this.date = date;
+    }
+
+    public void setType(@NonNull String type) {
+        this.type = type;
+    }
+
+    public void setFrom(@NonNull String from) {
+        this.from = from;
+    }
+
+    public void setTo(@NonNull String to) {
+        this.to = to;
+    }
+
+    public void setRepetition(@NonNull String repetition) {
+        this.repetition = repetition;
+    }
+
+    public void setNote(@NonNull String note) {
+        this.note = note;
+    }
+
+
+
 
     public int getTrip_id() {
         return trip_id;

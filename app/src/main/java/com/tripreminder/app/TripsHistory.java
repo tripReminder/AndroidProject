@@ -24,10 +24,10 @@ public class TripsHistory extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Trip[] trips = new Trip[4];
-//        trips[0] = new Trip("Alex", 0, 0);
-//        trips[1] = new Trip("Cairo", 1, 0);
-//        trips[2] = new Trip(3, "Aswan", 0, 0);
-//        trips[3] = new Trip(4, "Portsaid", 1, 0);
+    // trips[0] = new Trip("Alex", 0, 0);
+    //  trips[1] = new Trip("Cairo", 1, 0);
+    //  trips[2] = new Trip(3, "Aswan", 0, 0);
+    //  trips[3] = new Trip(4, "Portsaid", 1, 0);
 
         // final String id = UUID.randomUUID().toString();
         viewModel = ViewModelProviders.of(this).get(TripViewModel.class);
@@ -37,10 +37,12 @@ public class TripsHistory extends AppCompatActivity {
         while (!viewModel.flag){
             trips = viewModel.temp();
         }
+        viewModel.flag =false;
 
         recyclerView = findViewById(R.id.HistoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         HistoryAdapter adapter = new HistoryAdapter(getApplicationContext(), trips);
         recyclerView.setAdapter(adapter);
     }
+
 }

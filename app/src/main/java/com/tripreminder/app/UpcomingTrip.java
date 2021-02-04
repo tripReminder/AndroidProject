@@ -1,5 +1,6 @@
 package com.tripreminder.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +12,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UpcomingTrip extends AppCompatActivity {
@@ -19,6 +27,12 @@ public class UpcomingTrip extends AppCompatActivity {
     RecyclerView recyclerView;
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
+    private List<Trip> Ftrip = new ArrayList<Trip>();
+  Trip[] trips = new Trip[4];
+
+
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +62,8 @@ public class UpcomingTrip extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-       Trip[] trips = new Trip[4];
+
+        Trip[] trips = new Trip[4];
         trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
@@ -56,16 +71,38 @@ public class UpcomingTrip extends AppCompatActivity {
 
        // final String id = UUID.randomUUID().toString();
          tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-       tripViewModel.insert(trips[3]);
+      // tripViewModel.insert(trips[3]);
          tripViewModel.getAll(false);
 
          while (!tripViewModel.flag){
              trips = tripViewModel.temp();
          }
+         tripViewModel.flag =false;
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), trips);
         recyclerView.setAdapter(adapter);
+
+
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot datasnap : snapshot.getChildren())
+                {
+                    Trip trip = datasnap.getValue(Trip.class);
+                    Ftrip.add(trip);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
