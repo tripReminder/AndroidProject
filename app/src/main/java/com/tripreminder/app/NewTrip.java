@@ -69,6 +69,35 @@ public class NewTrip extends AppCompatActivity  {
         spinnerTripType();
         spinnerTripRepetion();
 
+        if(getIntent().getStringExtra("type").equals("add")){
+            btnAddTrip.setText(R.string.add);
+        }else if((getIntent().getStringExtra("type").equals("update"))){
+            btnAddTrip.setText(R.string.update);
+
+            Trip trip = (Trip) getIntent().getParcelableExtra("trip");
+            tripName.setText(trip.getTitle());
+            startPoint.setText(trip.getFrom());
+            endPoint.setText(trip.getTo());
+            note.setText(trip.getNote());
+            txtTime.setText(trip.getTime());
+            txtDate.setText(trip.getDate());
+
+            if(trip.getType().equals("One Way Trip")){
+                spinner.setSelection(0);
+            }else if(trip.getType().equals("Round Trip")){
+                spinner.setSelection(1);
+            }
+
+            if(trip.getRepetition().equals("No Repeat")){
+                spinner2.setSelection(0);
+            }else if(trip.getType().equals("Repeat Daily")){
+                spinner2.setSelection(1);
+            }else if(trip.getType().equals("Repeat Weekly")){
+                spinner2.setSelection(2);
+            }else if(trip.getType().equals("Repeat Monthly")){
+                spinner2.setSelection(3);
+            }
+        }
 
         imageTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,22 +119,27 @@ public class NewTrip extends AppCompatActivity  {
                 trip_type = spinner.getSelectedItem().toString();
                 trip_repeation=spinner2.getSelectedItem().toString();
 
-                    String t_title = tripName.getText().toString();
-                    String t_time = txtTime.getText().toString();
-                    String t_Date = txtDate.getText().toString();
-                    String t_type = trip_type;
-                    String t_from = startPoint.getText().toString();
-                    String t_to = endPoint.getText().toString();
-                    String t_repeation = trip_repeation;
-                    String t_note = note.getText().toString();
+                String t_title = tripName.getText().toString();
+                String t_time = txtTime.getText().toString();
+                String t_Date = txtDate.getText().toString();
+                String t_type = trip_type;
+                String t_from = startPoint.getText().toString();
+                String t_to = endPoint.getText().toString();
+                String t_repeation = trip_repeation;
+                String t_note = note.getText().toString();
 
-                tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
                         t_repeation,t_note);
-                tripViewModel.insert(model);
+                tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
+
+                if(getIntent().getStringExtra("type").equals("add")){
+                    tripViewModel.insert(model);
+                }else if(getIntent().getStringExtra("type").equals("update")){
+                    tripViewModel.update(model);
+                }
+
                 Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
                 finish();
-
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@
     <string name="end_point">Select your end point</string>
     <string name="trip_details">Trip Details</string>
     <string name="add">Add Trip</string>
+    <string name="update">Update Trip</string>
     <string name="cancel">Cancel</string>
     <string name="details_time">Time:</string>
     <string name="details_type">Type:</string>
