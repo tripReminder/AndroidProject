@@ -30,8 +30,6 @@ public class UpcomingTrip extends AppCompatActivity {
     TripViewModel tripViewModel;
     public static final String TAG= "my tag";
 
-
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
 
@@ -65,11 +63,17 @@ public class UpcomingTrip extends AppCompatActivity {
         super.onStart();
 
 
-      /*  Trip[] trips = new Trip[4];
+       Trip[] trips = new Trip[4];
         trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
+
+          recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), trips);
+                    recyclerView.setAdapter(adapter);
+
 
        // final String id = UUID.randomUUID().toString();
          tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
@@ -79,11 +83,17 @@ public class UpcomingTrip extends AppCompatActivity {
          while (!tripViewModel.flag){
              trips = tripViewModel.temp();
          }
-         tripViewModel.flag =false;*/
+         tripViewModel.flag =false;
 
 
+         ReadRealData();
 
-        // read from firebase
+
+    }
+
+    // read from firebase
+    public void ReadRealData()
+    {
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,25 +128,6 @@ public class UpcomingTrip extends AppCompatActivity {
 
             }
         });
-      /*  myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "loadPost:onCancelled", error.toException());
-            }
-        });*/
-
-
-
-
-
 
     }
 }
