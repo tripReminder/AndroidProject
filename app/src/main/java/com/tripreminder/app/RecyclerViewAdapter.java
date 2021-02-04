@@ -2,10 +2,12 @@ package com.tripreminder.app;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +39,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String from = data[position].getFrom();
         String to = data[position].getTo();
 
-         holder.trip_id = id;
+        holder.trip_id = id;
         holder.titleLbl.setText(title);
         holder.timeLbl.setText(time);
         holder.typeLbl.setText(type);
         holder.fromLbl.setText(from);
         holder.toLbl.setText(to);
+
+        holder.menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PopupMenu popup = new PopupMenu(v.getContext(), v);
+                popup.inflate(R.menu.option_menu);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId())
+                        {
+                            case R.id.updateBtn:
+                                break;
+                            case  R.id.deleteBtn:
+                                break;
+                        }
+                        return false;
+
+                    }
+                });
+                popup.show();
+            }
+        });
     }
 
     @Override
@@ -75,7 +101,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Toast.makeText(context, titleLbl.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
+
     }
 
 }

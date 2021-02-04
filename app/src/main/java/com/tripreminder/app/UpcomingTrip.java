@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,8 +39,9 @@ public class UpcomingTrip extends AppCompatActivity {
         historyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
-                startActivity(intent);
+              /*  Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
+                startActivity(intent);*/
+
             }
         });
     }
@@ -56,12 +58,13 @@ public class UpcomingTrip extends AppCompatActivity {
 
        // final String id = UUID.randomUUID().toString();
          tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-       tripViewModel.insert(trips[3]);
+       //tripViewModel.insert(trips[3]);
          tripViewModel.getAll(false);
 
          while (!tripViewModel.flag){
              trips = tripViewModel.temp();
          }
+         tripViewModel.flag=false;
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
