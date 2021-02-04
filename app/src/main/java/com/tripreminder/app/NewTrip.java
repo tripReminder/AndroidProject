@@ -74,7 +74,8 @@ public class NewTrip extends AppCompatActivity  {
         }else if((getIntent().getStringExtra("type").equals("update"))){
             btnAddTrip.setText(R.string.update);
 
-            Trip trip = (Trip) getIntent().getParcelableExtra("trip");
+            Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+
             tripName.setText(trip.getTitle());
             startPoint.setText(trip.getFrom());
             endPoint.setText(trip.getTo());
@@ -135,6 +136,8 @@ public class NewTrip extends AppCompatActivity  {
                 if(getIntent().getStringExtra("type").equals("add")){
                     tripViewModel.insert(model);
                 }else if(getIntent().getStringExtra("type").equals("update")){
+                    Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+                    model.setTrip_id(trip.getTrip_id());
                     tripViewModel.update(model);
                 }
 

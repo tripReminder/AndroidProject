@@ -5,9 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 
 @Entity(tableName = "Trips")
-public class Trip {
+public class Trip implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

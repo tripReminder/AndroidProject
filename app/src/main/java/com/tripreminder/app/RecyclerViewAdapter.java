@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -19,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
     private Trip[] data;
     private LayoutInflater inflater;
     Context context;
@@ -33,7 +36,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.upcomingtrip_row, parent, false);
-        tripViewModel = ViewModelProviders.of(new UpcomingTrip()).get(TripViewModel.class);
         return new ViewHolder(view);
     }
 
@@ -67,22 +69,50 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             case R.id.updateBtn:
                                 Trip trip = data[position];
                                 Intent intent = new Intent(context , NewTrip.class);
-                                intent.putExtra("trip", (Parcelable) trip);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                intent.putExtra("trip", trip);
                                 intent.putExtra("type", "update");
                                 context.startActivity(intent);
                                 break;
+
                             case  R.id.deleteBtn:
-                                new AlertDialog.Builder(context)
+                                tripViewModel = ViewModelProviders.of(new UpcomingTrip()).get(TripViewModel.class);
+                                tripViewModel.delete(data[position]);
+
+                              /*  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                                alertDialogBuilder.setTitle("Delete Trip");
+                                alertDialogBuilder.setMessage("Are you sure you want to delete this Trip?");
+                                        alertDialogBuilder.setPositiveButton("yes",
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface arg0, int arg1) {
+
+                                                    }
+                                                });
+
+                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e("You clicked NO","");
+                                    }
+                                });
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                                alertDialog.show();*/
+
+                                /*new AlertDialog.Builder(context)
                                         .setTitle("Delete Trip")
                                         .setMessage("Are you sure you want to delete this Trip?")
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
+                                                tripViewModel = ViewModelProviders.of(new UpcomingTrip()).get(TripViewModel.class);
                                                 tripViewModel.delete(data[position]);
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, null)
                                         .setIcon(android.R.drawable.ic_dialog_alert)
-                                        .show();
+                                        .show();*/
                                 break;
                         }
                         return false;
@@ -90,6 +120,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 });
                 popup.show();
+
             }
         });
     }
