@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,11 +28,12 @@ public class UpcomingTrip extends AppCompatActivity {
     RecyclerView recyclerView;
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
-    private List<Trip> Ftrip = new ArrayList<Trip>();
-  Trip[] trips = new Trip[4];
+    public static final String TAG= "my tag";
 
 
-    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
 
 
     @Override
@@ -63,7 +65,7 @@ public class UpcomingTrip extends AppCompatActivity {
         super.onStart();
 
 
-        Trip[] trips = new Trip[4];
+      /*  Trip[] trips = new Trip[4];
         trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
         trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
@@ -77,32 +79,64 @@ public class UpcomingTrip extends AppCompatActivity {
          while (!tripViewModel.flag){
              trips = tripViewModel.temp();
          }
-         tripViewModel.flag =false;
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), trips);
-        recyclerView.setAdapter(adapter);
+         tripViewModel.flag =false;*/
 
 
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        // read from firebase
+
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    Trip[] trips = new Trip[(int)snapshot.getChildrenCount()];
+                    int i = 0;
+                    for (DataSnapshot datasnap : snapshot.getChildren()) {
+                        Trip trip = datasnap.getValue(Trip.class);
+                        trips[i] = trip;
+                        i++;
+                        Log.i(TAG,trip.getTitle());
 
-                for(DataSnapshot datasnap : snapshot.getChildren())
-                {
-                    Trip trip = datasnap.getValue(Trip.class);
-                    Ftrip.add(trip);
+                    }
+                    recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), trips);
+                    recyclerView.setAdapter(adapter);
+                    Log.i(TAG,snapshot.getValue().toString());
+
+                }
+                else {
+                    Log.i(TAG, " Read firebase");
 
                 }
 
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+      /*  myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "loadPost:onCancelled", error.toException());
+            }
+        });*/
+
+
+
+
+
+
     }
 }
