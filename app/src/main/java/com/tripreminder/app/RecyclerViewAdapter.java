@@ -1,5 +1,6 @@
 package com.tripreminder.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +28,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     TripViewModel tripViewModel;
 
-    RecyclerViewAdapter(Context context, Trip[] data) {
+    RecyclerViewAdapter(Context context, TripViewModel tripViewModel, Trip[] data) {
+        this.tripViewModel = tripViewModel;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.data = data;
@@ -77,42 +79,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 break;
 
                             case  R.id.deleteBtn:
-                                tripViewModel = ViewModelProviders.of(new UpcomingTrip()).get(TripViewModel.class);
                                 tripViewModel.delete(data[position]);
 
-                              /*  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-                                alertDialogBuilder.setTitle("Delete Trip");
-                                alertDialogBuilder.setMessage("Are you sure you want to delete this Trip?");
-                                        alertDialogBuilder.setPositiveButton("yes",
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface arg0, int arg1) {
-
-                                                    }
-                                                });
-
-                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Log.e("You clicked NO","");
-                                    }
-                                });
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                                alertDialog.show();*/
-
-                                /*new AlertDialog.Builder(context)
-                                        .setTitle("Delete Trip")
-                                        .setMessage("Are you sure you want to delete this Trip?")
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                tripViewModel = ViewModelProviders.of(new UpcomingTrip()).get(TripViewModel.class);
-                                                tripViewModel.delete(data[position]);
-                                            }
-                                        })
-                                        .setNegativeButton(android.R.string.no, null)
-                                        .setIcon(android.R.drawable.ic_dialog_alert)
-                                        .show();*/
+//                                new AlertDialog.Builder(context)
+//                                        .setTitle("Delete Trip")
+//                                        .setMessage("Are you sure you want to delete this Trip?")
+//                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                tripViewModel.delete(data[position]);
+//                                            }
+//                                        })
+//                                        .setNegativeButton(android.R.string.no, null)
+//                                        .setIcon(android.R.drawable.ic_dialog_alert)
+//                                        .show();
                                 break;
                         }
                         return false;
