@@ -1,30 +1,35 @@
 package com.tripreminder.app;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.PopupMenu;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.UUID;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UpcomingTrip extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
+    public static final String TAG= "my tag";
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,5 +79,46 @@ public class UpcomingTrip extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
         recyclerView.setAdapter(adapter);
+
+         ReadRealData(tripViewModel);
+    }
+
+    // read from firebase
+    public void ReadRealData(TripViewModel tripViewModel)
+    {
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    Trip[] trips = new Trip[(int)snapshot.getChildrenCount()];
+                    int i = 0;
+                    for (DataSnapshot datasnap : snapshot.getChildren()) {
+                        Trip trip = datasnap.getValue(Trip.class);
+                        trips[i] = trip;
+                        i++;
+                        Log.i(TAG,trip.getTitle());
+
+                    }
+                    recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
+                    recyclerView.setAdapter(adapter);
+                    Log.i(TAG,snapshot.getValue().toString());
+
+                }
+                else {
+                    Log.i(TAG, " Read firebase");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

@@ -27,6 +27,8 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -46,12 +48,22 @@ public class NewTrip extends AppCompatActivity  {
     EditText endPoint;
     EditText note;
     TripViewModel tripViewModel;
+    Trip trip;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
+
+
     public static final String TRIP_ADDED= "new_trip";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
+
+        // Save data in firebase by Asmaa
+        trip = new Trip();
+
 
         spinner = findViewById(R.id.spinner1);
         spinner2 = findViewById(R.id.spinner2);
@@ -117,8 +129,8 @@ public class NewTrip extends AppCompatActivity  {
         btnAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trip_type = spinner.getSelectedItem().toString();
-                trip_repeation=spinner2.getSelectedItem().toString();
+                trip_type = spinner.getSelectedItem().toString().trim();
+                trip_repeation=spinner2.getSelectedItem().toString().trim();
 
                 String t_title = tripName.getText().toString();
                 String t_time = txtTime.getText().toString();
@@ -142,6 +154,8 @@ public class NewTrip extends AppCompatActivity  {
                 }
 
                 Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
+                // firebase
+                SaveRealData();
                 finish();
             }
         });
@@ -248,6 +262,34 @@ public class NewTrip extends AppCompatActivity  {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
     }
+
+ // write data to firebase
+    public void SaveRealData()
+    {
+        String tripTitle = tripName.getText().toString().trim();
+        String tripTime = txtTime.getText().toString().trim();
+        String tripDate = txtDate.getText().toString().trim();
+        String tripType = trip_type;
+        String tripFrom = startPoint.getText().toString().trim();
+        String tripTo = endPoint.getText().toString().trim();
+        String tripRepeation = trip_repeation;
+        String tripNote = note.getText().toString().trim();
+
+        trip.setTitle(tripTitle);
+        trip.setTime(tripTime);
+        trip.setDate(tripDate);
+        trip.setType(tripType);
+        trip.setFrom(tripFrom);
+        trip.setTo(tripTo);
+        trip.setRepetition(tripRepeation);
+        trip.setNote(tripNote);
+
+        myRef.push().setValue(trip);
+        Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
+
+
+    }
+
 
 
 }

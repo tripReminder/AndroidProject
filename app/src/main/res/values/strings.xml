@@ -33,4 +33,5 @@
     </string-array>
     <string name="showDetails">Show Details</string>
     <string name="delete">Delete</string>
+    <string name="login">Login</string>
 </resources>

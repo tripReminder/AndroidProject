@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tripreminder.app">
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
 
     <application
@@ -13,18 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TripReminder">
-        <activity android:name=".NewTrip">
 
-        </activity>
+        <activity android:name=".Login" ></activity>
+        <activity android:name=".RegisterUser"></activity>
+        <activity android:name=".NewTrip"></activity>
         <activity android:name=".TripsHistory"></activity>
         <activity android:name=".UpcomingTrip">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
