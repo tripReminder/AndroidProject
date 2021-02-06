@@ -49,6 +49,10 @@ public class NewTrip extends AppCompatActivity  {
     EditText note;
     TripViewModel tripViewModel;
     Trip trip;
+    double start_lng;
+    double start_lat;
+    double end_lat;
+    double end_lng;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -196,9 +200,13 @@ public class NewTrip extends AppCompatActivity  {
         if(requestCode == 100 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             startPoint.setText(place.getAddress());
+            start_lat=place.getLatLng().latitude;
+            start_lng=place.getLatLng().longitude;
         }else if(requestCode == 200 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             endPoint.setText(place.getAddress());
+            end_lat=place.getLatLng().latitude;
+            end_lng=place.getLatLng().longitude;
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
