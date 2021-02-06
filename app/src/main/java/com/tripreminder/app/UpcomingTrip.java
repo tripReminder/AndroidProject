@@ -56,6 +56,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
+                intent.putExtra("type", "add");
                 startActivity(intent);
             }
         });
@@ -64,7 +65,6 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
-                intent.putExtra("type", "add");
                 startActivity(intent);
             }
         });
