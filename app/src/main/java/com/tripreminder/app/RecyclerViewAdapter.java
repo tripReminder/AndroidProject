@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     Context context;
     TripViewModel tripViewModel;
+
 
     RecyclerViewAdapter(Context context, TripViewModel tripViewModel, Trip[] data) {
         this.tripViewModel = tripViewModel;
@@ -102,7 +104,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
         });
+
+
+        // for map
+        holder.startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayMap(30.0179962,31.4174193);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -138,5 +151,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
     }
+    private void displayMap(double EndLatitute,double EndLongtitue)
+    {
+        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=&destination"+ EndLatitute + ","+ EndLongtitue);
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+
 
 }
