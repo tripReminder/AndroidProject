@@ -19,6 +19,8 @@
     <string name="details_to">To:</string>
     <string name="details_status">Status:</string>
     <string name="notes">Notes</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="trip_type">
         <item>One Way Trip</item>

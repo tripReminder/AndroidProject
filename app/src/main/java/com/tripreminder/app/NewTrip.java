@@ -49,6 +49,9 @@ public class NewTrip extends AppCompatActivity  {
     EditText note;
     TripViewModel tripViewModel;
     Trip trip;
+    Double start_lat, start_lng;
+    Double end_lat, end_lng;
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -142,7 +145,7 @@ public class NewTrip extends AppCompatActivity  {
                 String t_note = note.getText().toString();
 
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                        t_repeation,t_note);
+                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng);
                 tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
                 if(getIntent().getStringExtra("type").equals("add")){
@@ -196,26 +199,19 @@ public class NewTrip extends AppCompatActivity  {
         if(requestCode == 100 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             startPoint.setText(place.getAddress());
+            start_lat=place.getLatLng().latitude;
+            start_lng=place.getLatLng().longitude;
         }else if(requestCode == 200 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             endPoint.setText(place.getAddress());
+            end_lat=place.getLatLng().latitude;
+            end_lng=place.getLatLng().longitude;
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    /* private void saveData() {
-
-        Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                t_repeation,t_note);
-
-        TripDatabase.getDatabase(getApplicationContext()).tripDao().insert(model);
-        startActivity(new Intent(NewTrip.this,MainActivity.class));*
-        System.out.println("done............................................................");
-
-
-    }*/
 
 
     private void getTime() {

@@ -57,6 +57,5 @@ dependencies {
 
     implementation 'com.google.android.libraries.places:places:2.4.0'
 
-    implementation 'com.google.firebase:firbase-auth:19.2.0'
-    implementation 'com.google.firebase:firbase-database:19.6.0'
+    
 }

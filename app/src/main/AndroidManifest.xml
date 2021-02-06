@@ -20,13 +20,17 @@
         <activity android:name=".RegisterUser"></activity>
         <activity android:name=".NewTrip"></activity>
         <activity android:name=".TripsHistory"></activity>
-        <activity android:name=".UpcomingTrip">
+        <activity android:name=".UpcomingTrip" android:label="Trip Reminder"  android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
