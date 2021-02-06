@@ -34,6 +34,14 @@ public class Trip implements Serializable {
     private String repetition;
     @NonNull
     private String note;
+    @NonNull
+    private Double start_lat;
+    @NonNull
+    private Double start_lng;
+    @NonNull
+    private Double end_lat;
+    @NonNull
+    private Double end_lng;
 
 
     // constructor for add a trip to firebase
@@ -76,6 +84,25 @@ public class Trip implements Serializable {
         this.time = time;
     }
 
+    public Double getStart_lat() {
+        return start_lat;
+    }
+
+    @NonNull
+    public Double getStart_lng() {
+        return start_lng;
+    }
+
+    @NonNull
+    public Double getEnd_lat() {
+        return end_lat;
+    }
+
+    @NonNull
+    public Double getEnd_lng() {
+        return end_lng;
+    }
+
     public void setDate(@NonNull String date) {
         this.date = date;
     }
@@ -101,10 +128,24 @@ public class Trip implements Serializable {
     }
 
 
-
-
     public int getTrip_id() {
         return trip_id;
+    }
+
+    public void setStart_lat(@NonNull Double start_lat) {
+        this.start_lat = start_lat;
+    }
+
+    public void setStart_lng(@NonNull Double start_lng) {
+        this.start_lng = start_lng;
+    }
+
+    public void setEnd_lat(@NonNull Double end_lat) {
+        this.end_lat = end_lat;
+    }
+
+    public void setEnd_lng(@NonNull Double end_lng) {
+        this.end_lng = end_lng;
     }
 
     @NonNull

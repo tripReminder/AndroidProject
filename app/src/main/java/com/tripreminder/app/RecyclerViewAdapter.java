@@ -110,7 +110,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayMap(30.0179962,31.4174193);
+                displayMap(data[position].getEnd_lat(),data[position].getEnd_lng());
             }
         });
     }
