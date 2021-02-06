@@ -51,6 +51,8 @@ public class NewTrip extends AppCompatActivity  {
     Trip trip;
     Double start_lat, start_lng;
     Double end_lat, end_lng;
+    ImageView roundTime ,roundDate;
+    TextView txtRoundTime , txtRoundDate;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -80,6 +82,10 @@ public class NewTrip extends AppCompatActivity  {
         note = findViewById(R.id.edtNotes);
         Button btnAddTrip = findViewById(R.id.btnAdd);
         Button btnCancel =findViewById(R.id.btnCancel);
+        roundTime = findViewById(R.id.roundTime);
+        roundDate = findViewById(R.id.roundDate);
+        txtRoundTime= findViewById(R.id.txtRoundTime);
+        txtRoundDate= findViewById(R.id.txtRoundDate);
 
         spinnerTripType();
         spinnerTripRepetion();
@@ -114,6 +120,43 @@ public class NewTrip extends AppCompatActivity  {
                 spinner2.setSelection(3);
             }
         }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(spinner.getSelectedItem().toString().equals("Round Trip")){
+                    roundTime.setVisibility(View.VISIBLE);
+                    roundDate.setVisibility(View.VISIBLE);
+                    txtRoundTime.setVisibility(View.VISIBLE);
+                    txtRoundDate.setVisibility(View.VISIBLE);
+                }else{
+                    roundTime.setVisibility(View.INVISIBLE);
+                    roundDate.setVisibility(View.INVISIBLE);
+                    txtRoundTime.setVisibility(View.INVISIBLE);
+                    txtRoundDate.setVisibility(View.INVISIBLE);
+                    txtRoundTime.setText("");
+                    txtRoundDate.setText("");
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        roundTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRoundTime();
+            }
+        });
+
+        roundDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRoundDate();
+            }
+        });
 
         imageTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,9 +186,11 @@ public class NewTrip extends AppCompatActivity  {
                 String t_to = endPoint.getText().toString();
                 String t_repeation = trip_repeation;
                 String t_note = note.getText().toString();
+                String t_roundTime= txtRoundTime.getText().toString();
+                String t_roundDate=txtRoundDate.getText().toString();
 
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng);
+                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng ,t_roundTime,t_roundDate);
                 tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
                 if(getIntent().getStringExtra("type").equals("add")){
@@ -285,7 +330,34 @@ public class NewTrip extends AppCompatActivity  {
 
 
     }
+    private void getRoundTime() {
+        final Calendar cldr = Calendar.getInstance();
+        int hour = cldr.get(Calendar.HOUR_OF_DAY);
+        int minutes = cldr.get(Calendar.MINUTE);
+        // time picker dialog
+        pickerTime = new TimePickerDialog(NewTrip.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                        txtRoundTime.setText(sHour + ":" + sMinute);
 
-
-
+                    }
+                }, hour, minutes, true);
+        pickerTime.show();
+    }
+    private void getRoundDate() {
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        pickerDate = new DatePickerDialog(NewTrip.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        txtRoundDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        pickerDate.show();
+    }
 }

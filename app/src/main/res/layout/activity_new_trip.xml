@@ -14,7 +14,49 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="810dp">
+            android:layout_height="854dp">
+
+            <ImageView
+                android:id="@+id/roundTime"
+                android:layout_width="96dp"
+                android:layout_height="75dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/spinner1"
+                app:layout_constraintTop_toBottomOf="@+id/spinner1"
+                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+
+            <ImageView
+                android:id="@+id/roundDate"
+                android:layout_width="89dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="4dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/roundTime"
+                app:layout_constraintTop_toTopOf="@+id/roundTime"
+                app:srcCompat="@android:drawable/ic_menu_today" />
+
+            <TextView
+                android:id="@+id/txtRoundDate"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/roundDate"
+                app:layout_constraintTop_toBottomOf="@+id/roundDate"
+                tools:text="0000" />
+
+            <TextView
+                android:id="@+id/txtRoundTime"
+                android:layout_width="94dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/roundTime"
+                app:layout_constraintTop_toBottomOf="@+id/roundTime"
+                tools:text="0000" />
 
             <EditText
                 android:id="@+id/edtTripName"
@@ -34,10 +76,10 @@
                 android:layout_width="324dp"
                 android:layout_height="47dp"
                 android:layout_marginTop="44dp"
+                android:drawableLeft="@drawable/ic_location"
                 android:ems="10"
                 android:hint="@string/end_point"
                 android:inputType="textPersonName"
-                android:drawableLeft="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/edtStartPoint"
                 app:layout_constraintTop_toBottomOf="@+id/edtStartPoint" />
 
@@ -74,18 +116,18 @@
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="96dp"
                 android:text="@string/add"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/spinner1"
-                app:layout_constraintTop_toBottomOf="@+id/spinner1"
-                app:layout_constraintVertical_bias="0.493" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
+                app:layout_constraintVertical_bias="0.489" />
 
             <ImageView
                 android:id="@+id/imageTime"
                 android:layout_width="96dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -98,7 +140,6 @@
                 android:layout_marginEnd="64dp"
                 android:text="@android:string/cancel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.595"
                 app:layout_constraintStart_toEndOf="@+id/btnAdd"
                 app:layout_constraintTop_toTopOf="@+id/btnAdd" />
 
@@ -107,7 +148,7 @@
                 android:layout_width="150dp"
                 android:layout_height="34dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="32dp"
                 android:entries="@array/trip_type"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/txtTime" />
@@ -117,10 +158,10 @@
                 android:layout_width="322dp"
                 android:layout_height="42dp"
                 android:layout_marginTop="44dp"
+                android:drawableLeft="@drawable/ic_location"
                 android:ems="10"
                 android:hint="@string/start_point"
                 android:inputType="textPersonName"
-                android:drawableLeft="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/edtTripName"
                 app:layout_constraintTop_toBottomOf="@+id/edtTripName" />
 
@@ -148,13 +189,13 @@
 
             <TextView
                 android:id="@+id/txtDate"
-                android:layout_width="94dp"
+                android:layout_width="110dp"
                 android:layout_height="25dp"
                 android:gravity="center"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/imageDate"
                 app:layout_constraintTop_toBottomOf="@+id/imageDate"
-                tools:text="0000" />
+                tools:text="00000000" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

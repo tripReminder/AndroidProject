@@ -42,6 +42,10 @@ public class Trip implements Serializable {
     private Double end_lat;
     @NonNull
     private Double end_lng;
+    @NonNull
+    private String roundTime;
+    @NonNull
+    private String roundDate;
 
 
     // constructor for add a trip to firebase
@@ -50,7 +54,8 @@ public class Trip implements Serializable {
     }
 
     public Trip(String title, boolean status, String imagePath, String time, String date, String type, String from, String to,
-                String repetition, String note,  Double start_lat, Double start_lng, Double end_lat, Double end_lng) {
+                String repetition, String note,  Double start_lat, Double start_lng, Double end_lat, Double end_lng ,
+                String roundTime,String roundDate) {
         this.title = title;
         this.status = status;
         this.imagePath = imagePath;
@@ -65,6 +70,8 @@ public class Trip implements Serializable {
         this.start_lng = start_lng;
         this.end_lat = end_lat;
         this.end_lng = end_lng;
+        this.roundTime=roundTime;
+        this.roundDate=roundDate;
 
 
     }
@@ -129,6 +136,14 @@ public class Trip implements Serializable {
 
     public void setEnd_lng(@NonNull Double end_lng) {
         this.end_lng = end_lng;
+    }
+
+    public void setRoundTime(@NonNull String roundTime) {
+        this.roundTime = roundTime;
+    }
+
+    public void setRoundDate(@NonNull String roundDate) {
+        this.roundDate = roundDate;
     }
 
     public int getTrip_id() {
@@ -202,5 +217,15 @@ public class Trip implements Serializable {
     @NonNull
     public Double getEnd_lng() {
         return end_lng;
+    }
+
+    @NonNull
+    public String getRoundTime() {
+        return roundTime;
+    }
+
+    @NonNull
+    public String getRoundDate() {
+        return roundDate;
     }
 }
