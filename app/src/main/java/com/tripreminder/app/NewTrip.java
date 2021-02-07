@@ -103,6 +103,8 @@ public class NewTrip extends AppCompatActivity  {
             note.setText(trip.getNote());
             txtTime.setText(trip.getTime());
             txtDate.setText(trip.getDate());
+            txtRoundTime.setText(trip.getRoundTime());
+            txtRoundDate.setText(trip.getRoundDate());
 
             if(trip.getType().equals("One Way Trip")){
                 spinner.setSelection(0);
@@ -315,6 +317,8 @@ public class NewTrip extends AppCompatActivity  {
         String tripTo = endPoint.getText().toString().trim();
         String tripRepeation = trip_repeation;
         String tripNote = note.getText().toString().trim();
+        String tripRoundTime= txtRoundTime.getText().toString().trim();
+        String tripRoundDate=txtRoundDate.getText().toString().trim();
 
         trip.setTitle(tripTitle);
         trip.setTime(tripTime);
@@ -324,6 +328,8 @@ public class NewTrip extends AppCompatActivity  {
         trip.setTo(tripTo);
         trip.setRepetition(tripRepeation);
         trip.setNote(tripNote);
+        trip.setRoundTime(tripRoundTime);
+        trip.setRoundDate(tripRoundDate);
 
         myRef.push().setValue(trip);
         Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
