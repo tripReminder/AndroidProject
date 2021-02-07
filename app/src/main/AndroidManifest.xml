@@ -3,10 +3,7 @@
     package="com.tripreminder.app">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TripReminder">
-
-        <activity android:name=".Login" ></activity>
-        <activity android:name=".RegisterUser"></activity>
-        <activity android:name=".NewTrip"></activity>
-        <activity android:name=".TripsHistory"></activity>
-        <activity android:name=".UpcomingTrip" android:label="Trip Reminder"  android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".TripDetails"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".RegisterUser" />
+        <activity android:name=".NewTrip" />
+        <activity android:name=".TripsHistory" />
+        <activity
+            android:name=".UpcomingTrip"
+            android:label="Trip Reminder"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

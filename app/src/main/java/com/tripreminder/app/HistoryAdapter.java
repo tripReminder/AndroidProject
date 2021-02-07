@@ -1,6 +1,7 @@
 package com.tripreminder.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private Trip[] data;
     private LayoutInflater inflater;
     Context context;
+    Button showBtn;
 
     HistoryAdapter(Context context, Trip[] data) {
         this.context = context;
@@ -44,6 +46,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         else
             holder.status.setImageResource((Integer)0);
         //holder.trippic.setImageResource((Integer)1);
+
+        holder.show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Trip trip = data[position];
+                Intent intent = new Intent(context , TripDetails.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("trip", trip);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -36,4 +36,8 @@
     <string name="showDetails">Show Details</string>
     <string name="delete">Delete</string>
     <string name="login">Login</string>
+    <string name="date">Date:</string>
+    <string name="repetition">Repetition:</string>
+    <string name="re_date">Repetition Date:</string>
+    <string name="re_time">Repetition Time:</string>
 </resources>
