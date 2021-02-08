@@ -98,12 +98,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
 
         AlarmReceiver alarmReceiver = new AlarmReceiver();
         registerReceiver(alarmReceiver, s_intentFilter);
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(alarmReceiver);
+
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -120,6 +116,13 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         //navigationView.setCheckedItem(R.id.nav_upcoming);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(alarmReceiver);
+
     }
 
     @Override
