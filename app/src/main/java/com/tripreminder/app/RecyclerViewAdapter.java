@@ -1,24 +1,19 @@
 package com.tripreminder.app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -79,9 +74,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 break;
 
                             case  R.id.deleteBtn:
-                                tripViewModel.delete(data[position]);
+                                //tripViewModel.delete(data[position]);
 
-//                                new AlertDialog.Builder(context)
+//                                new AlertDialog.Builder(context.getApplicationContext())
 //                                        .setTitle("Delete Trip")
 //                                        .setMessage("Are you sure you want to delete this Trip?")
 //                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -100,6 +95,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 });
                 popup.show();
 
+            }
+        });
+
+        holder.notesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpcomingTrip.noteView.setVisibility(View.VISIBLE);
+                UpcomingTrip.noteLbl.setText(data[position].getNote());
             }
         });
     }

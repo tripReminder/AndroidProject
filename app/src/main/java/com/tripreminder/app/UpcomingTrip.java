@@ -1,16 +1,28 @@
 package com.tripreminder.app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,15 +32,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URI;
+import java.time.LocalTime;
+
 public class UpcomingTrip extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
+    Button closeAlert;
+    static TextView noteLbl;
+    static CardView noteView;
     public static final String TAG= "my tag";
+    public static Trip[] data;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
+
+    static IntentFilter s_intentFilter = new IntentFilter();
+    AlarmReceiver alarmReceiver;
 
 
     @Override
@@ -37,11 +59,26 @@ public class UpcomingTrip extends AppCompatActivity {
         setContentView(R.layout.activity_upcoming_trip);
         addBtn = findViewById(R.id.addBtn);
         historyBtn = findViewById(R.id.historyBtn);
+        noteLbl = findViewById(R.id.noteLbl);
+        noteView = findViewById(R.id.noteView);
+        closeAlert = findViewById(R.id.closeAlert);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+
+        }else{
+            if(!Settings.canDrawOverlays(UpcomingTrip.this)){
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 0);
+            }else{
+
+            }
+        }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
+                intent.putExtra("type", "add");
                 startActivity(intent);
             }
         });
@@ -50,10 +87,29 @@ public class UpcomingTrip extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
-                intent.putExtra("type", "add");
                 startActivity(intent);
             }
         });
+
+        closeAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteView.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        s_intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
+        s_intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+
+        AlarmReceiver alarmReceiver = new AlarmReceiver();
+        registerReceiver(alarmReceiver, s_intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(alarmReceiver);
     }
 
     @Override
@@ -61,11 +117,11 @@ public class UpcomingTrip extends AppCompatActivity {
         super.onStart();
 
         Trip[] trips = new Trip[4];
-//        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
-//        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
-//        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
-//        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "shgfakgkufefk");
-
+//        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
+//        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
+//        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
+//        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
+////
          tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
        //tripViewModel.insert(trips[3]);
          tripViewModel.getAll(false);
@@ -75,12 +131,13 @@ public class UpcomingTrip extends AppCompatActivity {
          }
          tripViewModel.flag=false;
 
+        data = trips;
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
         recyclerView.setAdapter(adapter);
 
-         ReadRealData(tripViewModel);
+         //ReadRealData(tripViewModel);
     }
 
     // read from firebase

@@ -34,4 +34,6 @@
     <string name="showDetails">Show Details</string>
     <string name="delete">Delete</string>
     <string name="login">Login</string>
+    <string name="yesBtn">Yes</string>
+    <string name="noBtn">No</string>
 </resources>
