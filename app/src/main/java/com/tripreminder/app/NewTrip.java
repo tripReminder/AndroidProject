@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -53,7 +55,6 @@ public class NewTrip extends AppCompatActivity  {
     Double end_lat, end_lng;
     ImageView roundTime ,roundDate;
     TextView txtRoundTime , txtRoundDate;
-
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -191,6 +192,7 @@ public class NewTrip extends AppCompatActivity  {
                 String t_roundTime= txtRoundTime.getText().toString();
                 String t_roundDate=txtRoundDate.getText().toString();
 
+
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
                         t_repeation,t_note,start_lat,start_lng,end_lat,end_lng ,t_roundTime,t_roundDate);
                 tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
@@ -258,7 +260,6 @@ public class NewTrip extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
         }
     }
-
 
 
     private void getTime() {
@@ -330,7 +331,6 @@ public class NewTrip extends AppCompatActivity  {
         trip.setNote(tripNote);
         trip.setRoundTime(tripRoundTime);
         trip.setRoundDate(tripRoundDate);
-
         myRef.push().setValue(trip);
         Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
 

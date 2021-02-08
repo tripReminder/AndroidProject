@@ -49,7 +49,6 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
 
     static IntentFilter s_intentFilter = new IntentFilter();
@@ -61,7 +60,6 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_trip);
         addBtn = findViewById(R.id.addBtn);
-        historyBtn = findViewById(R.id.historyBtn);
         noteLbl = findViewById(R.id.noteLbl);
         noteView = findViewById(R.id.noteView);
         closeAlert = findViewById(R.id.closeAlert);
@@ -83,14 +81,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
                 intent.putExtra("type", "add");
                 startActivity(intent);
-            }
-        });
 
-        historyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
-                startActivity(intent);
             }
         });
 
@@ -226,5 +217,4 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

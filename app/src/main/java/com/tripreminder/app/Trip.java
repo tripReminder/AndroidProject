@@ -73,7 +73,6 @@ public class Trip implements Serializable {
         this.roundTime=roundTime;
         this.roundDate=roundDate;
 
-
     }
 
     public void setTrip_id(int trip_id) {
@@ -122,6 +121,18 @@ public class Trip implements Serializable {
         this.note = note;
     }
 
+    public void setRoundTime(@NonNull String roundTime) {
+        this.roundTime = roundTime;
+    }
+
+    public void setRoundDate(@NonNull String roundDate) {
+        this.roundDate = roundDate;
+    }
+
+    public int getTrip_id() {
+        return trip_id;
+    }
+
     public void setStart_lat(@NonNull Double start_lat) {
         this.start_lat = start_lat;
     }
@@ -136,18 +147,6 @@ public class Trip implements Serializable {
 
     public void setEnd_lng(@NonNull Double end_lng) {
         this.end_lng = end_lng;
-    }
-
-    public void setRoundTime(@NonNull String roundTime) {
-        this.roundTime = roundTime;
-    }
-
-    public void setRoundDate(@NonNull String roundDate) {
-        this.roundDate = roundDate;
-    }
-
-    public int getTrip_id() {
-        return trip_id;
     }
 
     @NonNull
