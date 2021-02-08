@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,8 +21,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -28,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     Context context;
     TripViewModel tripViewModel;
+    private static final int DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE = 1;
 
 
     RecyclerViewAdapter(Context context, TripViewModel tripViewModel, Trip[] data) {
@@ -105,23 +112,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-
         // for map
         holder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayMap(data[position].getEnd_lat(),data[position].getEnd_lng());
+                displayMap(data[position].getFrom(),data[position].getTo());
+
+              // for bubles icon
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + context.getPackageName()));
+                   // ((Activity) context).startActivityForResult(intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE);
+                } else
+                    startFloatingWidgetService(data[position].getNote());
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {
         return data.length;
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         int trip_id;
@@ -151,15 +163,52 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
     }
-    private void displayMap(double EndLatitute,double EndLongtitue)
+    //map
+    private void displayMap(String source, String destention)
     {
-        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=&destination"+ EndLatitute + ","+ EndLongtitue);
+        //Uri uri = Uri.parse("https://www.google.com/maps/dir/"+ EndLatitute + "/"+ EndLongtitue);
+
+        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+source+"&destination=" + destention);
         Intent intent = new Intent(Intent.ACTION_VIEW,uri);
         intent.setPackage("com.google.android.apps.maps");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
     }
 
 
 
-}
+    // bubble icon
+    private void checkBubblesPermissions(Trip trip)
+    {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + context.getPackageName()));
+            intent.putExtra("Intent",trip.getNote());
+            ((Activity) context).startActivityForResult(intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE);
+        } else
+            startFloatingWidgetService(trip.getNote());
+    }
+
+    private void startFloatingWidgetService(String Notes) {
+        Intent i = new Intent(context, bubbleService.class);
+        i.setAction(bubbleService.ACTION_START);
+        i.putExtra("Intent",Notes);
+        context.startService(i);
+
+    }
+
+   /*@Override
+     void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK)
+                startFloatingWidgetService(getIntent().getStringExtra("Intent"));
+
+        }
+    }*/
+    }
+
+

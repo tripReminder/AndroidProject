@@ -49,7 +49,8 @@ public class Trip implements Serializable {
 
     }
 
-    public Trip(String title, boolean status, String imagePath, String time, String date, String type, String from, String to, String repetition, String note) {
+    public Trip(String title, boolean status, String imagePath, String time, String date, String type, String from, String to,
+                String repetition, String note,  Double start_lat, Double start_lng, Double end_lat, Double end_lng) {
         this.title = title;
         this.status = status;
         this.imagePath = imagePath;
@@ -60,6 +61,10 @@ public class Trip implements Serializable {
         this.to = to;
         this.repetition = repetition;
         this.note = note;
+        this.start_lat = start_lat;
+        this.start_lng = start_lng;
+        this.end_lat = end_lat;
+        this.end_lng = end_lng;
     }
 
     public void setTrip_id(int trip_id) {

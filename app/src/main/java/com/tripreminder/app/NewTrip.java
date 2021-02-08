@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -49,10 +51,11 @@ public class NewTrip extends AppCompatActivity  {
     EditText note;
     TripViewModel tripViewModel;
     Trip trip;
-    double start_lng;
-    double start_lat;
-    double end_lat;
-    double end_lng;
+    Double start_lng;
+    Double start_lat;
+    Double end_lat;
+    Double end_lng;
+    public static final String TAG ="tag";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -145,8 +148,10 @@ public class NewTrip extends AppCompatActivity  {
                 String t_repeation = trip_repeation;
                 String t_note = note.getText().toString();
 
+
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                        t_repeation,t_note);
+                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng);
+
                 tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
                 if(getIntent().getStringExtra("type").equals("add")){
@@ -207,6 +212,17 @@ public class NewTrip extends AppCompatActivity  {
             endPoint.setText(place.getAddress());
             end_lat=place.getLatLng().latitude;
             end_lng=place.getLatLng().longitude;
+//            Toast.makeText(getApplicationContext(), start_lat + "", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), start_lng + "", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), end_lat + "", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), end_lng + "", Toast.LENGTH_LONG).show();
+
+
+
+
+            /*List<PhotoMetadata> photo =  place.getPhotoMetadatas();
+            photo.get(0)*/
+
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -224,7 +240,6 @@ public class NewTrip extends AppCompatActivity  {
 
 
     }*/
-
 
     private void getTime() {
         final Calendar cldr = Calendar.getInstance();
@@ -291,7 +306,6 @@ public class NewTrip extends AppCompatActivity  {
         trip.setTo(tripTo);
         trip.setRepetition(tripRepeation);
         trip.setNote(tripNote);
-
         myRef.push().setValue(trip);
         Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
 

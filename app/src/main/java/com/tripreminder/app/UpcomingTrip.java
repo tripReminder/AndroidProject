@@ -1,14 +1,19 @@
 package com.tripreminder.app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
@@ -26,6 +31,8 @@ public class UpcomingTrip extends AppCompatActivity {
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
     public static final String TAG= "my tag";
+    private static final int DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE = 1;
+    private Trip[] data;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trip");
@@ -44,6 +51,7 @@ public class UpcomingTrip extends AppCompatActivity {
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
                 intent.putExtra("type", "add");
                 startActivity(intent);
+
             }
         });
 
@@ -51,6 +59,7 @@ public class UpcomingTrip extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , TripsHistory.class);
+                //intent.putExtra("type", "add");
                 startActivity(intent);
             }
         });
@@ -121,4 +130,36 @@ public class UpcomingTrip extends AppCompatActivity {
         });
 
     }
+
+
+
+ /*   private void checkBubblesPermissions(Trip trip)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(UpcomingTrip.this)) {
+
+                   Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                           Uri.parse("package:" + getPackageName()));
+                   intent.putExtra("Intent",trip.getNote());
+                  startActivityForResult(intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE);
+                    } else
+                            startFloatingWidgetService(trip.getNote());
+    }
+
+    private void startFloatingWidgetService(String Notes) {
+        Intent i = new Intent(this, bubbleService.class);
+        i.setAction(bubbleService.ACTION_START);
+        i.putExtra("Intent",Notes);
+         startService(i);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK)
+                startFloatingWidgetService(getIntent().getStringExtra("Intent"));
+
+        }
+    }*/
 }
