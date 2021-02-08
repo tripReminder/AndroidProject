@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TripReminder">
-        <activity android:name=".TripDetails"></activity>
+        <activity android:name=".TripDetails"
+            android:theme="@style/AppTheme.pop"
+            ></activity>
         <activity android:name=".Login" />
         <activity android:name=".RegisterUser" />
         <activity android:name=".NewTrip" />
