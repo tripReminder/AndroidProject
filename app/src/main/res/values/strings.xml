@@ -19,6 +19,8 @@
     <string name="details_to">To:</string>
     <string name="details_status">Status:</string>
     <string name="notes">Notes</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="trip_type">
         <item>One Way Trip</item>
@@ -36,4 +38,8 @@
     <string name="login">Login</string>
     <string name="yesBtn">Yes</string>
     <string name="noBtn">No</string>
+    <string name="date">Date:</string>
+    <string name="repetition">Repetition:</string>
+    <string name="re_date">Repetition Date:</string>
+    <string name="re_time">Repetition Time:</string>
 </resources>

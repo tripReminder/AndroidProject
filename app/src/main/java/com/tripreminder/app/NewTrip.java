@@ -49,6 +49,11 @@ public class NewTrip extends AppCompatActivity  {
     EditText note;
     TripViewModel tripViewModel;
     Trip trip;
+    Double start_lat, start_lng;
+    Double end_lat, end_lng;
+    ImageView roundTime ,roundDate;
+    TextView txtRoundTime , txtRoundDate;
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -77,6 +82,10 @@ public class NewTrip extends AppCompatActivity  {
         note = findViewById(R.id.edtNotes);
         Button btnAddTrip = findViewById(R.id.btnAdd);
         Button btnCancel =findViewById(R.id.btnCancel);
+        roundTime = findViewById(R.id.roundTime);
+        roundDate = findViewById(R.id.roundDate);
+        txtRoundTime= findViewById(R.id.txtRoundTime);
+        txtRoundDate= findViewById(R.id.txtRoundDate);
 
         spinnerTripType();
         spinnerTripRepetion();
@@ -94,6 +103,8 @@ public class NewTrip extends AppCompatActivity  {
             note.setText(trip.getNote());
             txtTime.setText(trip.getTime());
             txtDate.setText(trip.getDate());
+            txtRoundTime.setText(trip.getRoundTime());
+            txtRoundDate.setText(trip.getRoundDate());
 
             if(trip.getType().equals("One Way Trip")){
                 spinner.setSelection(0);
@@ -111,6 +122,43 @@ public class NewTrip extends AppCompatActivity  {
                 spinner2.setSelection(3);
             }
         }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(spinner.getSelectedItem().toString().equals("Round Trip")){
+                    roundTime.setVisibility(View.VISIBLE);
+                    roundDate.setVisibility(View.VISIBLE);
+                    txtRoundTime.setVisibility(View.VISIBLE);
+                    txtRoundDate.setVisibility(View.VISIBLE);
+                }else{
+                    roundTime.setVisibility(View.INVISIBLE);
+                    roundDate.setVisibility(View.INVISIBLE);
+                    txtRoundTime.setVisibility(View.INVISIBLE);
+                    txtRoundDate.setVisibility(View.INVISIBLE);
+                    txtRoundTime.setText("");
+                    txtRoundDate.setText("");
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        roundTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRoundTime();
+            }
+        });
+
+        roundDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRoundDate();
+            }
+        });
 
         imageTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,9 +188,11 @@ public class NewTrip extends AppCompatActivity  {
                 String t_to = endPoint.getText().toString();
                 String t_repeation = trip_repeation;
                 String t_note = note.getText().toString();
+                String t_roundTime= txtRoundTime.getText().toString();
+                String t_roundDate=txtRoundDate.getText().toString();
 
                 Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                        t_repeation,t_note);
+                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng ,t_roundTime,t_roundDate);
                 tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
                 if(getIntent().getStringExtra("type").equals("add")){
@@ -196,26 +246,19 @@ public class NewTrip extends AppCompatActivity  {
         if(requestCode == 100 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             startPoint.setText(place.getAddress());
+            start_lat=place.getLatLng().latitude;
+            start_lng=place.getLatLng().longitude;
         }else if(requestCode == 200 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             endPoint.setText(place.getAddress());
+            end_lat=place.getLatLng().latitude;
+            end_lng=place.getLatLng().longitude;
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    /* private void saveData() {
-
-        Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                t_repeation,t_note);
-
-        TripDatabase.getDatabase(getApplicationContext()).tripDao().insert(model);
-        startActivity(new Intent(NewTrip.this,MainActivity.class));*
-        System.out.println("done............................................................");
-
-
-    }*/
 
 
     private void getTime() {
@@ -274,6 +317,8 @@ public class NewTrip extends AppCompatActivity  {
         String tripTo = endPoint.getText().toString().trim();
         String tripRepeation = trip_repeation;
         String tripNote = note.getText().toString().trim();
+        String tripRoundTime= txtRoundTime.getText().toString().trim();
+        String tripRoundDate=txtRoundDate.getText().toString().trim();
 
         trip.setTitle(tripTitle);
         trip.setTime(tripTime);
@@ -283,13 +328,42 @@ public class NewTrip extends AppCompatActivity  {
         trip.setTo(tripTo);
         trip.setRepetition(tripRepeation);
         trip.setNote(tripNote);
+        trip.setRoundTime(tripRoundTime);
+        trip.setRoundDate(tripRoundDate);
 
         myRef.push().setValue(trip);
         Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
 
 
     }
+    private void getRoundTime() {
+        final Calendar cldr = Calendar.getInstance();
+        int hour = cldr.get(Calendar.HOUR_OF_DAY);
+        int minutes = cldr.get(Calendar.MINUTE);
+        // time picker dialog
+        pickerTime = new TimePickerDialog(NewTrip.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                        txtRoundTime.setText(sHour + ":" + sMinute);
 
-
-
+                    }
+                }, hour, minutes, true);
+        pickerTime.show();
+    }
+    private void getRoundDate() {
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        pickerDate = new DatePickerDialog(NewTrip.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        txtRoundDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        pickerDate.show();
+    }
 }
