@@ -34,17 +34,9 @@ public class Trip implements Serializable {
     private String repetition;
     @NonNull
     private String note;
-    @NonNull
-    private Double start_lat;
-    @NonNull
-    private Double start_lng;
-    @NonNull
-    private Double end_lat;
-    @NonNull
-    private Double end_lng;
-    @NonNull
+
     private String roundTime;
-    @NonNull
+
     private String roundDate;
 
 
@@ -54,8 +46,7 @@ public class Trip implements Serializable {
     }
 
     public Trip(String title, boolean status, String imagePath, String time, String date, String type, String from, String to,
-                String repetition, String note,  Double start_lat, Double start_lng, Double end_lat, Double end_lng ,
-                String roundTime,String roundDate) {
+                String repetition, String note, String roundTime,String roundDate) {
         this.title = title;
         this.status = status;
         this.imagePath = imagePath;
@@ -66,10 +57,6 @@ public class Trip implements Serializable {
         this.to = to;
         this.repetition = repetition;
         this.note = note;
-        this.start_lat = start_lat;
-        this.start_lng = start_lng;
-        this.end_lat = end_lat;
-        this.end_lng = end_lng;
         this.roundTime=roundTime;
         this.roundDate=roundDate;
 
@@ -121,32 +108,16 @@ public class Trip implements Serializable {
         this.note = note;
     }
 
-    public void setRoundTime(@NonNull String roundTime) {
+    public void setRoundTime( String roundTime) {
         this.roundTime = roundTime;
     }
 
-    public void setRoundDate(@NonNull String roundDate) {
+    public void setRoundDate( String roundDate) {
         this.roundDate = roundDate;
     }
 
     public int getTrip_id() {
         return trip_id;
-    }
-
-    public void setStart_lat(@NonNull Double start_lat) {
-        this.start_lat = start_lat;
-    }
-
-    public void setStart_lng(@NonNull Double start_lng) {
-        this.start_lng = start_lng;
-    }
-
-    public void setEnd_lat(@NonNull Double end_lat) {
-        this.end_lat = end_lat;
-    }
-
-    public void setEnd_lng(@NonNull Double end_lng) {
-        this.end_lng = end_lng;
     }
 
     @NonNull
@@ -198,32 +169,12 @@ public class Trip implements Serializable {
         return note;
     }
 
-    @NonNull
-    public Double getStart_lat() {
-        return start_lat;
-    }
 
-    @NonNull
-    public Double getStart_lng() {
-        return start_lng;
-    }
-
-    @NonNull
-    public Double getEnd_lat() {
-        return end_lat;
-    }
-
-    @NonNull
-    public Double getEnd_lng() {
-        return end_lng;
-    }
-
-    @NonNull
     public String getRoundTime() {
         return roundTime;
     }
 
-    @NonNull
+
     public String getRoundDate() {
         return roundDate;
     }

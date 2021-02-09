@@ -86,7 +86,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 break;
 
                             case  R.id.deleteBtn:
-                                //tripViewModel.delete(data[position]);
+                                tripViewModel.delete(data[position]);
 
 //                                new AlertDialog.Builder(context.getApplicationContext())
 //                                        .setTitle("Delete Trip")
