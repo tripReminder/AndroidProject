@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         style="@style/TextAppearance.Compat.Notification.Info"
         android:layout_width="0dp"
-        android:layout_height="203dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -27,38 +27,44 @@
 
             <TextView
                 android:id="@+id/timeLbl"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
                 android:text="11111"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/titleLbl" />
 
             <TextView
                 android:id="@+id/typeLbl"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="22222222222"
+                app:layout_constraintEnd_toEndOf="@+id/timeLbl"
                 app:layout_constraintStart_toStartOf="@+id/timeLbl"
                 app:layout_constraintTop_toBottomOf="@+id/timeLbl" />
 
             <TextView
                 android:id="@+id/toLbl"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="4444444444"
+                app:layout_constraintEnd_toEndOf="@+id/fromLbl"
                 app:layout_constraintStart_toStartOf="@+id/fromLbl"
                 app:layout_constraintTop_toBottomOf="@+id/fromLbl" />
 
             <TextView
                 android:id="@+id/fromLbl"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="3333333333"
+                app:layout_constraintEnd_toEndOf="@+id/typeLbl"
                 app:layout_constraintStart_toStartOf="@+id/typeLbl"
                 app:layout_constraintTop_toBottomOf="@+id/typeLbl" />
 
@@ -125,9 +131,10 @@
             <Button
                 android:id="@+id/startBtn"
                 android:layout_width="77dp"
-                android:layout_height="28dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="100dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_border"
                 android:freezesText="true"
                 android:text="@string/startBtn"
@@ -137,8 +144,7 @@
                 app:backgroundTint="@drawable/btn_border"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toLbl"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@+id/toLbl" />
 
             <Button
                 android:id="@+id/notesBtn"
