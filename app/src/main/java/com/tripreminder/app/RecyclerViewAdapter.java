@@ -10,10 +10,12 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -32,7 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     Context context;
     TripViewModel tripViewModel;
-    private static final int DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE = 1;
+    UpcomingTrip upcomingTrip = new UpcomingTrip();
 
 
     RecyclerViewAdapter(Context context, TripViewModel tripViewModel, Trip[] data) {
@@ -67,7 +69,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 PopupMenu popup = new PopupMenu(v.getContext(), v);
                 popup.inflate(R.menu.option_menu);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -76,29 +77,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         switch (item.getItemId())
                         {
                             case R.id.updateBtn:
-                                Trip trip = data[position];
                                 Intent intent = new Intent(context , NewTrip.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                                intent.putExtra("trip", trip);
+                                intent.putExtra("trip", data[position]);
                                 intent.putExtra("type", "update");
                                 context.startActivity(intent);
                                 break;
 
                             case  R.id.deleteBtn:
-                                //tripViewModel.delete(data[position]);
-
-//                                new AlertDialog.Builder(context.getApplicationContext())
-//                                        .setTitle("Delete Trip")
-//                                        .setMessage("Are you sure you want to delete this Trip?")
-//                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dialog, int which) {
-//                                                tripViewModel.delete(data[position]);
-//                                            }
-//                                        })
-//                                        .setNegativeButton(android.R.string.no, null)
-//                                        .setIcon(android.R.drawable.ic_dialog_alert)
-//                                        .show();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !Settings.canDrawOverlays(context)) {
+                                    upcomingTrip.chickOverlayPermission();
+                                } else{
+                                    showAlert(context, "Delete Trip", "Are you sure you want to delete this Trip?",
+                                            "Yes", "No", data[position]);
+                                }
                                 break;
                         }
                         return false;
@@ -113,26 +106,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.notesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UpcomingTrip.noteView.setVisibility(View.VISIBLE);
-                UpcomingTrip.noteLbl.setText(data[position].getNote());
-
-        }});
+                upcomingTrip.noteOps(data[position]);
+            }
+        });
 
         // for map
         holder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayMap(data[position].getFrom(),data[position].getTo());
 
-                // for bubles icon
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
-
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:" + context.getPackageName()));
-                    // ((Activity) context).startActivityForResult(intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE);
+                    upcomingTrip.chickOverlayPermission();
                 } else
+                    displayMap(data[position].getFrom(),data[position].getTo());
                     startFloatingWidgetService(data[position].getNote());
-            }});
+            }
+        });
 
     }
 
@@ -170,10 +159,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
     //map
-    private void displayMap(String source, String destention)
-    {
-        //Uri uri = Uri.parse("https://www.google.com/maps/dir/"+ EndLatitute + "/"+ EndLongtitue);
-
+    private void displayMap(String source, String destention) {
         Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+source+"&destination=" + destention);
         Intent intent = new Intent(Intent.ACTION_VIEW,uri);
         intent.setPackage("com.google.android.apps.maps");
@@ -183,21 +169,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-
-
-//    // bubble icon
-//    private void checkBubblesPermissions(Trip trip)
-//    {
-//       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
-//
-//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-//                    Uri.parse("package:" + context.getPackageName()));
-//            intent.putExtra("Intent",trip.getNote());
-//            ((Activity) context).startActivityForResult(intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE);
-//        } else
-//            startFloatingWidgetService(trip.getNote());
-//    }
-
     private void startFloatingWidgetService(String Notes) {
         Intent i = new Intent(context, bubbleService.class);
         i.setAction(bubbleService.ACTION_START);
@@ -206,15 +177,50 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-   /*@Override
-     void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE) {
-            if (resultCode == RESULT_OK)
-                startFloatingWidgetService(getIntent().getStringExtra("Intent"));
-
+    void showAlert(Context context, String title, String body, String yes, String no, Trip trip) {
+        final WindowManager manager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.gravity = Gravity.CENTER;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+        }else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
-    }*/
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.alpha = 1.0f;
+        layoutParams.packageName = context.getPackageName();
+        layoutParams.buttonBrightness = 1f;
+        layoutParams.windowAnimations = android.R.style.Animation_Dialog;
+
+        final View view = View.inflate(context.getApplicationContext(),R.layout.alert_view, null);
+        TextView titleLbl = (TextView) view.findViewById(R.id.alertTitle);
+        TextView bodyLbl = (TextView) view.findViewById(R.id.alertBody);
+        Button yesButton = (Button) view.findViewById(R.id.yesBtn);
+        Button noButton = (Button) view.findViewById(R.id.noBtn);
+
+        titleLbl.setText(title);
+        bodyLbl.setText(body);
+        yesButton.setText(yes);
+        noButton.setText(no);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                tripViewModel.delete(trip);
+                upcomingTrip.readRoom();
+                manager.removeView(view);
+            }
+        });
+        noButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                manager.removeView(view);
+            }
+        });
+        manager.addView(view, layoutParams);
     }
+}
 
 

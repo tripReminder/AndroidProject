@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.LocaleData;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,35 +21,50 @@ import androidx.lifecycle.ViewModelProviders;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Calendar;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    UpcomingTrip upcomingTrip = new UpcomingTrip();
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        LocalDate localDate = LocalDate.now();
-        LocalTime localTime = LocalTime.now();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String localTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
+            String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue() + 1) + "/" + LocalDate.now().getYear();
 
-        Trip[] trips = UpcomingTrip.data;
-        for (int i = 0; i < trips.length; i++) {
-            String date = trips[i].getDate();
-            String time = trips[i].getTime();
+            Trip[] trips = UpcomingTrip.data;
+            for (int i = 0; i < trips.length; i++) {
+                String date = trips[i].getDate();
+                String time = trips[i].getTime();
 
-            if(localDate.toString().equals(date) && localTime.toString().equals(time)){
-                showAlert(context, trips[i].getTitle(),
-                        trips[i].getTitle() + "trip now is its time. Do you want to start it now ?",
-                        "Start", "Cancel");
-                Log.i("receiver", "alert");
-                break;
+                if(localDate.equals(date) && localTime.equals(time)){
+                    if (!Settings.canDrawOverlays(context)) {
+                        upcomingTrip.chickOverlayPermission();
+                    } else{
+                        showAlert(context, trips[i].getTitle(),
+                                trips[i].getTitle() + "trip now is its time. Do you want to start it now ?",
+                                "Start", "Cancel");
+                        Log.i("receiver", "alert");
+                    }
+
+                    break;
+                }
             }
         }
+
+
     }
 
     void showAlert(Context context, String title, String body, String yes, String no) {
         final WindowManager manager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.gravity = Gravity.CENTER;
-        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.alpha = 1.0f;

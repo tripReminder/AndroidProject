@@ -206,8 +206,6 @@ public class NewTrip extends AppCompatActivity  {
                 }
 
                 Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
-                // firebase
-                SaveRealData();
                 finish();
             }
         });
@@ -307,35 +305,6 @@ public class NewTrip extends AppCompatActivity  {
         spinner2.setAdapter(adapter2);
     }
 
- // write data to firebase
-    public void SaveRealData()
-    {
-        String tripTitle = tripName.getText().toString().trim();
-        String tripTime = txtTime.getText().toString().trim();
-        String tripDate = txtDate.getText().toString().trim();
-        String tripType = trip_type;
-        String tripFrom = startPoint.getText().toString().trim();
-        String tripTo = endPoint.getText().toString().trim();
-        String tripRepeation = trip_repeation;
-        String tripNote = note.getText().toString().trim();
-        String tripRoundTime= txtRoundTime.getText().toString().trim();
-        String tripRoundDate=txtRoundDate.getText().toString().trim();
-
-        trip.setTitle(tripTitle);
-        trip.setTime(tripTime);
-        trip.setDate(tripDate);
-        trip.setType(tripType);
-        trip.setFrom(tripFrom);
-        trip.setTo(tripTo);
-        trip.setRepetition(tripRepeation);
-        trip.setNote(tripNote);
-        trip.setRoundTime(tripRoundTime);
-        trip.setRoundDate(tripRoundDate);
-        myRef.push().setValue(trip);
-        Toast.makeText(NewTrip.this, "New trip is added", Toast.LENGTH_LONG).show();
-
-
-    }
     private void getRoundTime() {
         final Calendar cldr = Calendar.getInstance();
         int hour = cldr.get(Calendar.HOUR_OF_DAY);

@@ -18,12 +18,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,10 +44,10 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
     Button closeAlert;
-    static TextView noteLbl;
-    static CardView noteView;
+    TextView noteLbl;
+    CardView noteView;
     public static final String TAG= "my tag";
-    public static Trip[] data;
+    public static Trip[] data = new Trip[0];
     private static  final String MY_PREFS_NAME= "Shared prefrence";
 
     DrawerLayout drawerLayout;
@@ -66,24 +69,12 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         noteView = findViewById(R.id.noteView);
         closeAlert = findViewById(R.id.closeAlert);
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
-
-        }else{
-            if(!Settings.canDrawOverlays(UpcomingTrip.this)){
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 0);
-            }else{
-
-            }
-        }
-
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
                 intent.putExtra("type", "add");
                 startActivity(intent);
-
             }
         });
 
@@ -94,18 +85,17 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+
         s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
         s_intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         s_intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
 
         AlarmReceiver alarmReceiver = new AlarmReceiver();
         registerReceiver(alarmReceiver, s_intentFilter);
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(alarmReceiver);
+
+
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -125,71 +115,16 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(alarmReceiver);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
-//        Trip[] trips = new Trip[4];
-////        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
-////        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
-////        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
-////        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
-//////
-//         tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-//       //tripViewModel.insert(trips[3]);
-//         tripViewModel.getAll(false);
-//
-//         while (!tripViewModel.flag){
-//             trips = tripViewModel.temp();
-//         }
-//         tripViewModel.flag=false;
-//
-//        data = trips;
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
-//        recyclerView.setAdapter(adapter);
-
-         ReadRealData(tripViewModel);
-    }
-
-    // read from firebase
-    public void ReadRealData(TripViewModel tripViewModel)
-    {
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    Trip[] trips = new Trip[(int)snapshot.getChildrenCount()];
-                    int i = 0;
-                    for (DataSnapshot datasnap : snapshot.getChildren()) {
-                        Trip trip = datasnap.getValue(Trip.class);
-                        trips[i] = trip;
-                        i++;
-                        Log.i(TAG,trip.getTitle());
-
-                    }
-                    recyclerView = findViewById(R.id.recyclerView);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
-                    recyclerView.setAdapter(adapter);
-                    Log.i(TAG,snapshot.getValue().toString());
-
-                    data = trips;
-                }
-                else {
-                    Log.i(TAG, " Read firebase");
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        readRoom();
     }
 
     @Override
@@ -210,7 +145,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(UpcomingTrip.this,TripsHistory.class));
                 break;
             case R.id.nav_sync:
-                ReadRealData(tripViewModel);
+                readFirebase();
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
@@ -224,5 +159,96 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void readRoom(){
+//        Trip[] trips = new Trip[4];
+////        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
+////        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
+////        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
+////        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
+//////
+        tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
+        tripViewModel.getAll(false);
+
+        while (!TripViewModel.flag){
+            data = tripViewModel.temp();
+        }
+        TripViewModel.flag=false;
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, data);
+        recyclerView.setAdapter(adapter);
+    }
+
+    // read from firebase
+    public void readFirebase() {
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    Trip[] trips = new Trip[(int)snapshot.getChildrenCount()];
+                    int i = 0;
+                    for (DataSnapshot datasnap : snapshot.getChildren()) {
+                        Trip trip = datasnap.getValue(Trip.class);
+                        trips[i] = trip;
+                        i++;
+                    }
+
+                    sync(trips, data);
+                }
+                else {
+                    Log.i(TAG, " Read firebase");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void sync(Trip[] firebaseTrips, Trip[] roomTrips){
+        Handler handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message message) {
+                if(message.arg1 == 1)
+                    readRoom();
+                return false;
+            }
+        });
+
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+
+                for (Trip firebaseTrip : firebaseTrips) {
+                    tripViewModel.update(firebaseTrip);
+                }
+
+                for (Trip roomTrip : roomTrips) {
+                    myRef.child(roomTrip.getTrip_id() + "").push().setValue(roomTrip);
+                }
+
+
+                Message message = new Message();
+                message.arg1 = 1;
+                handler.sendMessage(message);
+            }
+        }.start();
+    }
+
+    public void chickOverlayPermission(){
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent, 0);
+    }
+
+    public void noteOps(Trip trip){
+        noteView.setVisibility(View.VISIBLE);
+        noteLbl.setText(trip.getNote());
     }
 }
