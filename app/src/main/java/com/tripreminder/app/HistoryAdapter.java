@@ -2,9 +2,13 @@ package com.tripreminder.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +23,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private LayoutInflater inflater;
     Context context;
     Button showBtn;
+    TripsHistory tripsHistory;
 
-    HistoryAdapter(Context context, Trip[] data) {
+    HistoryAdapter(Context context, TripsHistory tripsHistory, Trip[] data) {
+        this.tripsHistory = tripsHistory;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.data = data;
@@ -57,6 +63,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !Settings.canDrawOverlays(context)) {
+                    tripsHistory.chickOverlayPermission();
+                } else{
+                    showAlert(context, "Delete Trip", "Are you sure you want to delete this Trip?",
+                            "Yes", "No", data[position]);
+                }
+            }
+        });
     }
 
     @Override
@@ -91,4 +109,47 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
     }
 
+    void showAlert(Context context, String title, String body, String yes, String no, Trip trip) {
+        final WindowManager manager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.gravity = Gravity.CENTER;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.alpha = 1.0f;
+        layoutParams.packageName = context.getPackageName();
+        layoutParams.buttonBrightness = 1f;
+        layoutParams.windowAnimations = android.R.style.Animation_Dialog;
+
+        final View view = View.inflate(context.getApplicationContext(),R.layout.alert_view, null);
+        TextView titleLbl = (TextView) view.findViewById(R.id.alertTitle);
+        TextView bodyLbl = (TextView) view.findViewById(R.id.alertBody);
+        Button yesButton = (Button) view.findViewById(R.id.yesBtn);
+        Button noButton = (Button) view.findViewById(R.id.noBtn);
+
+        titleLbl.setText(title);
+        bodyLbl.setText(body);
+        yesButton.setText(yes);
+        noButton.setText(no);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                tripsHistory.delete(trip);
+                manager.removeView(view);
+            }
+        });
+        noButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                manager.removeView(view);
+            }
+        });
+        manager.addView(view, layoutParams);
+    }
 }
