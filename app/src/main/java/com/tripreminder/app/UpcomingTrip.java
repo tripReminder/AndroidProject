@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     static CardView noteView;
     public static final String TAG= "my tag";
     public static Trip[] data;
+    private static  final String MY_PREFS_NAME= "Shared prefrence";
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -126,28 +128,28 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
 
-        Trip[] trips = new Trip[4];
-//        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
-//        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
-//        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
-//        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
-////
-         tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
-       //tripViewModel.insert(trips[3]);
-         tripViewModel.getAll(false);
+//        Trip[] trips = new Trip[4];
+////        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
+////        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
+////        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
+////        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
+//////
+//         tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
+//       //tripViewModel.insert(trips[3]);
+//         tripViewModel.getAll(false);
+//
+//         while (!tripViewModel.flag){
+//             trips = tripViewModel.temp();
+//         }
+//         tripViewModel.flag=false;
+//
+//        data = trips;
+//        recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
+//        recyclerView.setAdapter(adapter);
 
-         while (!tripViewModel.flag){
-             trips = tripViewModel.temp();
-         }
-         tripViewModel.flag=false;
-
-        data = trips;
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, trips);
-        recyclerView.setAdapter(adapter);
-
-         //ReadRealData(tripViewModel);
+         ReadRealData(tripViewModel);
     }
 
     // read from firebase
@@ -173,6 +175,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                     recyclerView.setAdapter(adapter);
                     Log.i(TAG,snapshot.getValue().toString());
 
+                    data = trips;
                 }
                 else {
                     Log.i(TAG, " Read firebase");
@@ -211,6 +214,11 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+
+                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.remove("userId");
+                editor.apply();
+
                 startActivity(new Intent(UpcomingTrip.this,RegisterUser.class));
                 break;
         }
