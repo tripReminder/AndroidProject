@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tripreminder.app.UpcomingTrip.noteView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -34,11 +35,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     Context context;
     TripViewModel tripViewModel;
-    UpcomingTrip upcomingTrip = new UpcomingTrip();
+    UpcomingTrip upcomingTrip ;
 
 
-    RecyclerViewAdapter(Context context, TripViewModel tripViewModel, Trip[] data) {
-        this.tripViewModel = tripViewModel;
+    RecyclerViewAdapter(Context context, UpcomingTrip upcomingTrip, Trip[] data) {
+        this.upcomingTrip = upcomingTrip;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.data = data;
@@ -106,7 +107,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.notesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upcomingTrip.noteOps(data[position]);
+                UpcomingTrip.noteView.setVisibility(View.VISIBLE);
+                UpcomingTrip.noteLbl.setText(data[position].getNote());
             }
         });
 
@@ -118,6 +120,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
                     upcomingTrip.chickOverlayPermission();
                 } else
+                    data[position].setStatus(true);
+                    upcomingTrip.updateStatus(data[position]);
                     displayMap(data[position].getFrom(),data[position].getTo());
                     startFloatingWidgetService(data[position].getNote());
             }
@@ -182,7 +186,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.gravity = Gravity.CENTER;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }else {
             layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
@@ -207,8 +211,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             @Override
             public void onClick(View v) {
-                tripViewModel.delete(trip);
-                upcomingTrip.readRoom();
+                upcomingTrip.delete(trip);
                 manager.removeView(view);
             }
         });

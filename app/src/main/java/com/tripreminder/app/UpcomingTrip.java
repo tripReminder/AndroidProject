@@ -44,8 +44,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
     Button closeAlert;
-    TextView noteLbl;
-    CardView noteView;
+    static TextView noteLbl;
+    static CardView noteView;
     public static final String TAG= "my tag";
     public static Trip[] data = new Trip[0];
     private static  final String MY_PREFS_NAME= "Shared prefrence";
@@ -178,7 +178,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), tripViewModel, data);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), this, data);
         recyclerView.setAdapter(adapter);
     }
 
@@ -217,6 +217,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             public boolean handleMessage(@NonNull Message message) {
                 if(message.arg1 == 1)
                     readRoom();
+                Log.i("tag","handler sync");
                 return false;
             }
         });
@@ -225,8 +226,10 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
                 super.run();
+                Log.i("tag","thread");
 
                 for (Trip firebaseTrip : firebaseTrips) {
+                    Log.i("tag",firebaseTrip.getTitle());
                     tripViewModel.update(firebaseTrip);
                 }
 
@@ -247,8 +250,12 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         startActivityForResult(intent, 0);
     }
 
-    public void noteOps(Trip trip){
-        noteView.setVisibility(View.VISIBLE);
-        noteLbl.setText(trip.getNote());
+    public  void delete(Trip trip){
+        tripViewModel.delete(trip);
+        readRoom();
+    }
+    public  void updateStatus(Trip trip){
+        tripViewModel.update(trip);
+        readRoom();
     }
 }

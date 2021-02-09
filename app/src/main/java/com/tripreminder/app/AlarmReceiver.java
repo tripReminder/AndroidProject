@@ -31,12 +31,14 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String localTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
-            String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue() + 1) + "/" + LocalDate.now().getYear();
+            String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue()) + "/" + LocalDate.now().getYear();
 
             Trip[] trips = UpcomingTrip.data;
             for (int i = 0; i < trips.length; i++) {
                 String date = trips[i].getDate();
                 String time = trips[i].getTime();
+                Log.i("tag",localTime +"&"+time);
+                Log.i("tag",localDate +"&"+date);
 
                 if(localDate.equals(date) && localTime.equals(time)){
                     if (!Settings.canDrawOverlays(context)) {

@@ -32,7 +32,7 @@ public class TripsHistory extends AppCompatActivity {
         // final String id = UUID.randomUUID().toString();
         viewModel = ViewModelProviders.of(this).get(TripViewModel.class);
         //viewModel.insert(trips[3]);
-        viewModel.getAll(false);
+        viewModel.getAll(true);
 
         while (!viewModel.flag){
             trips = viewModel.temp();
