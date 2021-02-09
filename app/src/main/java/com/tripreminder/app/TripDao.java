@@ -10,7 +10,7 @@ import androidx.room.Update;
 public interface TripDao {
 
     @Insert
-    void insert(Trip trip);
+    void insert(Trip...trip);
 
     @Query("SELECT * FROM Trips WHERE status = :status")
     Trip[] getAll(boolean status);
@@ -19,7 +19,7 @@ public interface TripDao {
     Trip getTrip(int id);
 
     @Update
-    void update(Trip trip);
+    void update(Trip...trip);
 
     @Delete
     int delete(Trip trip);

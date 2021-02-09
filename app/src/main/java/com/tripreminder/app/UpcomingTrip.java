@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UpcomingTrip extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -75,6 +79,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(UpcomingTrip.this , NewTrip.class);
                 intent.putExtra("type", "add");
                 startActivity(intent);
+
             }
         });
 
@@ -184,7 +189,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
 
     // read from firebase
     public void readFirebase() {
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -216,7 +221,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean handleMessage(@NonNull Message message) {
                 if(message.arg1 == 1)
-                    readRoom();
+                   readRoom();
                 Log.i("tag","handler sync");
                 return false;
             }
@@ -228,14 +233,29 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 super.run();
                 Log.i("tag","thread");
 
-                for (Trip firebaseTrip : firebaseTrips) {
-                    Log.i("tag",firebaseTrip.getTitle());
-                    tripViewModel.update(firebaseTrip);
+                for (Trip firebaseTrip:firebaseTrips) {
+                    boolean flag = false;
+                    for (Trip roomTrip : roomTrips)
+                    {
+                        if(roomTrip.getTrip_id()== firebaseTrip.getTrip_id())
+                        {
+                            tripViewModel.update(firebaseTrip);
+                            flag=true;
+                        }
+
+                    }
+                    if(!flag) {
+                        tripViewModel.insert(firebaseTrip);
+                    }
+
                 }
 
+
                 for (Trip roomTrip : roomTrips) {
-                    myRef.child(roomTrip.getTrip_id() + "").push().setValue(roomTrip);
+                     myRef.child(roomTrip.getTrip_id()+"").setValue(roomTrip);
                 }
+                Log.i("tag",firebaseTrips.length +"");
+                Log.i("tag",roomTrips.length + "");
 
 
                 Message message = new Message();

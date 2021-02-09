@@ -19,7 +19,7 @@ public class TripViewModel extends AndroidViewModel {
         tripDao = tripRoomDatabase.tripDao();
     }
 
-    public void insert(Trip trip){
+    public void insert(Trip...trip){
         new Thread(){
             @Override
             public void run() {
@@ -49,7 +49,7 @@ public class TripViewModel extends AndroidViewModel {
         return trip;
     }
 
-    public void update(Trip trip){
+    public void update(Trip...trip){
         new Thread(){
             @Override
             public void run() {
