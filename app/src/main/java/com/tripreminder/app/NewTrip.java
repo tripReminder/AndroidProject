@@ -29,6 +29,8 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,16 +47,17 @@ public class NewTrip extends AppCompatActivity  {
     DatePickerDialog pickerDate;
     String trip_type, trip_repeation;
     TextView txtTime , txtDate;
-    EditText tripName;
-    EditText startPoint;
-    EditText endPoint;
-    EditText note;
+    TextInputLayout tripName;
+    TextInputLayout startPoint1;
+    TextInputLayout endPoint1;
+    TextInputLayout note;
+    TextInputEditText startPoint;
+    TextInputEditText endPoint;
     TripViewModel tripViewModel;
     Trip trip;
-    Double start_lat, start_lng;
-    Double end_lat, end_lng;
     ImageView roundTime ,roundDate;
     TextView txtRoundTime , txtRoundDate;
+    String t_title ,t_time,t_Date,t_from,t_to;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
@@ -67,9 +70,9 @@ public class NewTrip extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
 
+
         // Save data in firebase by Asmaa
         trip = new Trip();
-
 
         spinner = findViewById(R.id.spinner1);
         spinner2 = findViewById(R.id.spinner2);
@@ -87,9 +90,10 @@ public class NewTrip extends AppCompatActivity  {
         roundDate = findViewById(R.id.roundDate);
         txtRoundTime= findViewById(R.id.txtRoundTime);
         txtRoundDate= findViewById(R.id.txtRoundDate);
-
         spinnerTripType();
         spinnerTripRepetion();
+        startPoint1=findViewById(R.id.edtStartPoint1);
+        endPoint1=findViewById(R.id.edtEndPoint1);
 
         if(getIntent().getStringExtra("type").equals("add")){
             btnAddTrip.setText(R.string.add);
@@ -98,10 +102,10 @@ public class NewTrip extends AppCompatActivity  {
 
             Trip trip = (Trip) getIntent().getSerializableExtra("trip");
 
-            tripName.setText(trip.getTitle());
+            tripName.getEditText().setText(trip.getTitle());
             startPoint.setText(trip.getFrom());
             endPoint.setText(trip.getTo());
-            note.setText(trip.getNote());
+            note.getEditText().setText(trip.getNote());
             txtTime.setText(trip.getTime());
             txtDate.setText(trip.getDate());
             txtRoundTime.setText(trip.getRoundTime());
@@ -175,38 +179,83 @@ public class NewTrip extends AppCompatActivity  {
             }
         });
 
+
         btnAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 trip_type = spinner.getSelectedItem().toString().trim();
-                trip_repeation=spinner2.getSelectedItem().toString().trim();
+                trip_repeation = spinner2.getSelectedItem().toString().trim();
 
-                String t_title = tripName.getText().toString();
-                String t_time = txtTime.getText().toString();
-                String t_Date = txtDate.getText().toString();
+                t_title = tripName.getEditText().getText().toString();
+                t_time = txtTime.getText().toString();
+                t_Date = txtDate.getText().toString();
                 String t_type = trip_type;
-                String t_from = startPoint.getText().toString();
-                String t_to = endPoint.getText().toString();
+                t_from = startPoint.getText().toString();
+                t_to = endPoint.getText().toString();
                 String t_repeation = trip_repeation;
-                String t_note = note.getText().toString();
-                String t_roundTime= txtRoundTime.getText().toString();
-                String t_roundDate=txtRoundDate.getText().toString();
+                String t_note = note.getEditText().getText().toString();
+                String t_roundTime = txtRoundTime.getText().toString();
+                String t_roundDate = txtRoundDate.getText().toString();
 
+                if (t_title.length() != 0 && t_from.length() != 0 && t_to.length() != 0 &&
+                        t_time.length() != 0 && t_Date.length() != 0) {
 
-                Trip model = new Trip(t_title,false,"",t_time,t_Date,t_type,t_from,t_to,
-                        t_repeation,t_note,start_lat,start_lng,end_lat,end_lng ,t_roundTime,t_roundDate);
-                tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
+                    Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
+                            t_repeation, t_note, t_roundTime, t_roundDate);
+                    tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
-                if(getIntent().getStringExtra("type").equals("add")){
-                    tripViewModel.insert(model);
-                }else if(getIntent().getStringExtra("type").equals("update")){
-                    Trip trip = (Trip) getIntent().getSerializableExtra("trip");
-                    model.setTrip_id(trip.getTrip_id());
-                    tripViewModel.update(model);
+                    if (getIntent().getStringExtra("type").equals("add")) {
+                        tripViewModel.insert(model);
+                    } else if (getIntent().getStringExtra("type").equals("update")) {
+                        Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+                        model.setTrip_id(trip.getTrip_id());
+                        tripViewModel.update(model);
+                    }
+
+                    Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
+                    finish();
                 }
+                if(t_title.length() == 0){
+                    tripName.setError("Field can’t be empty");
+                }else{
+                    tripName.setError(null);
+                }
+                if(t_from.length() == 0){
+                    startPoint1.setError("Field can’t be empty");
+                }else{
+                    startPoint1.setError(null);
+                }
+                if(t_to.length() == 0){
+                    endPoint1.setError("Field can’t be empty");
+                }else{
+                    endPoint1.setError(null);
+                }
+                if(t_time.length() == 0){
+                    txtTime.setError("Time Required");
+                }else{
+                    txtTime.setError(null);
+                }
+                if(t_Date.length() == 0){
+                    txtDate.setError("Date Required");
+                }else{
+                    txtDate.setError(null);
+                }
+                if(spinner.getSelectedItem().toString().equals("Round Trip")){
+                    if(t_roundTime.length() == 0){
+                        txtRoundTime.setError("Time Required");
+                    }else{
+                        txtRoundTime.setError(null);
+                    }
+                    if(t_roundDate.length() == 0){
+                        txtRoundDate.setError("Date Required");
+                    }else{
+                        txtRoundDate.setError(null);
+                    }
 
                 Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
                 finish();
+                }
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -246,13 +295,9 @@ public class NewTrip extends AppCompatActivity  {
         if(requestCode == 100 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             startPoint.setText(place.getAddress());
-            start_lat=place.getLatLng().latitude;
-            start_lng=place.getLatLng().longitude;
         }else if(requestCode == 200 && resultCode == RESULT_OK){
             Place place = Autocomplete.getPlaceFromIntent(data);
             endPoint.setText(place.getAddress());
-            end_lat=place.getLatLng().latitude;
-            end_lng=place.getLatLng().longitude;
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -335,4 +380,5 @@ public class NewTrip extends AppCompatActivity  {
                 }, year, month, day);
         pickerDate.show();
     }
+
 }

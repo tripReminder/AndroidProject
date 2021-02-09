@@ -10,12 +10,153 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtTripName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/trip_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtStartPoint1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtStartPoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_location"
+                android:inputType="textPersonName"
+                android:hint="@string/start_point" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtEndPoint1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEndPoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_location"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:hint="@string/end_point" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/notes"
+                android:inputType="textMultiLine"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="854dp">
+            android:layout_height="400dp">
 
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/trip_details"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.072"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@android:style/Widget.EditText"/>
+
+            <ImageView
+                android:id="@+id/imageDate"
+                android:layout_width="89dp"
+                android:layout_height="69dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.582"
+                app:layout_constraintStart_toEndOf="@+id/imageTime"
+                app:layout_constraintTop_toTopOf="@+id/imageTime"
+                app:srcCompat="@android:drawable/ic_menu_today" />
+
+
+            <ImageView
+                android:id="@+id/imageTime"
+                android:layout_width="96dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+
+
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="150dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:entries="@array/trip_type"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="149dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="32dp"
+                android:entries="@array/trip_repetition"
+                app:layout_constraintStart_toEndOf="@+id/spinner1"
+                app:layout_constraintTop_toTopOf="@+id/spinner1" />
+
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="94dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintStart_toStartOf="@+id/imageTime"
+                app:layout_constraintTop_toBottomOf="@+id/imageTime"
+                tools:text="0000" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="110dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintStart_toStartOf="@+id/imageDate"
+                app:layout_constraintTop_toBottomOf="@+id/imageDate"
+                tools:text="00000000" />
             <ImageView
                 android:id="@+id/roundTime"
                 android:layout_width="96dp"
@@ -43,6 +184,9 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 android:visibility="invisible"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 app:layout_constraintStart_toStartOf="@+id/roundDate"
                 app:layout_constraintTop_toBottomOf="@+id/roundDate"
                 tools:text="0000" />
@@ -54,84 +198,13 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 android:visibility="invisible"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
                 app:layout_constraintStart_toStartOf="@+id/roundTime"
                 app:layout_constraintTop_toBottomOf="@+id/roundTime"
-                tools:text="0000" />
-
-            <EditText
-                android:id="@+id/edtTripName"
-                android:layout_width="316dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="56dp"
-                android:ems="10"
-                android:hint="@string/trip_name"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/edtEndPoint"
-                android:layout_width="324dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="44dp"
-                android:drawableLeft="@drawable/ic_location"
-                android:ems="10"
-                android:hint="@string/end_point"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/edtStartPoint"
-                app:layout_constraintTop_toBottomOf="@+id/edtStartPoint" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:text="@string/trip_details"
-                android:textSize="30sp"
-                app:layout_constraintStart_toStartOf="@+id/edtNotes"
-                app:layout_constraintTop_toBottomOf="@+id/edtNotes" />
-
-            <ImageView
-                android:id="@+id/imageDate"
-                android:layout_width="89dp"
-                android:layout_height="69dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.582"
-                app:layout_constraintStart_toEndOf="@+id/imageTime"
-                app:layout_constraintTop_toTopOf="@+id/imageTime"
-                app:srcCompat="@android:drawable/ic_menu_today" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="149dp"
-                android:layout_height="31dp"
-                android:layout_marginStart="32dp"
-                android:entries="@array/trip_repetition"
-                app:layout_constraintStart_toEndOf="@+id/spinner1"
-                app:layout_constraintTop_toTopOf="@+id/spinner1" />
-
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
-                android:text="@string/add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
-                app:layout_constraintVertical_bias="0.489" />
-
-            <ImageView
-                android:id="@+id/imageTime"
-                android:layout_width="96dp"
-                android:layout_height="75dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                tools:text="0000"
+                />
 
             <Button
                 android:id="@+id/btnCancel"
@@ -140,62 +213,20 @@
                 android:layout_marginEnd="64dp"
                 android:text="@android:string/cancel"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/btnAdd"
                 app:layout_constraintTop_toTopOf="@+id/btnAdd" />
 
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="150dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:entries="@array/trip_type"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/txtTime" />
-
-            <EditText
-                android:id="@+id/edtStartPoint"
-                android:layout_width="322dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="44dp"
-                android:drawableLeft="@drawable/ic_location"
-                android:ems="10"
-                android:hint="@string/start_point"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/edtTripName"
-                app:layout_constraintTop_toBottomOf="@+id/edtTripName" />
-
-            <EditText
-                android:id="@+id/edtNotes"
-                android:layout_width="325dp"
-                android:layout_height="57dp"
-                android:layout_marginTop="40dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/notes"
-                android:inputType="textMultiLine"
-                app:layout_constraintStart_toStartOf="@+id/edtEndPoint"
-                app:layout_constraintTop_toBottomOf="@+id/edtEndPoint" />
-
-            <TextView
-                android:id="@+id/txtTime"
-                android:layout_width="94dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/imageTime"
-                app:layout_constraintTop_toBottomOf="@+id/imageTime"
-                tools:text="0000" />
-
-            <TextView
-                android:id="@+id/txtDate"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/imageDate"
-                app:layout_constraintTop_toBottomOf="@+id/imageDate"
-                tools:text="00000000" />
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:text="@string/add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
+                app:layout_constraintVertical_bias="0.529" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

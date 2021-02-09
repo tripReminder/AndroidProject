@@ -60,4 +60,5 @@ dependencies {
 
     implementation 'com.txusballesteros:bubbles:1.2.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
 }
