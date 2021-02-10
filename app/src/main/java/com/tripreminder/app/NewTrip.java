@@ -198,10 +198,9 @@ public class NewTrip extends AppCompatActivity  {
                 String t_roundTime = txtRoundTime.getText().toString();
                 String t_roundDate = txtRoundDate.getText().toString();
 
-                if(spinner.getSelectedItem().toString().equals("One Way Trip")) {
-                    if (t_title.length() != 0 && t_from.length() != 0 && t_to.length() != 0 &&
+                if (t_title.length() != 0 && t_from.length() != 0 && t_to.length() != 0 &&
                             t_time.length() != 0 && t_Date.length() != 0) {
-
+                    if(spinner.getSelectedItem().toString().equals("One Way Trip")) {
 
                         Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
                                 t_repeation, t_note, t_roundTime, t_roundDate);
@@ -217,9 +216,8 @@ public class NewTrip extends AppCompatActivity  {
 
                         Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
                         finish();
-                    }
-                }else{
-                    if(t_roundTime.length() !=0 && t_roundDate.length() !=0) {
+                    } else {
+                        if (t_roundTime.length() != 0 && t_roundDate.length() != 0) {
                             Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
                                     t_repeation, t_note, t_roundTime, t_roundDate);
                             tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
@@ -236,6 +234,7 @@ public class NewTrip extends AppCompatActivity  {
                             finish();
                         }
                     }
+                }
                 if(t_title.length() == 0){
                     tripName.setError("Field can’t be empty");
                 }else{
