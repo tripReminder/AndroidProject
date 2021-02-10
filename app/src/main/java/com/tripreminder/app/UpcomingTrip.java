@@ -191,7 +191,9 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = getSharedPreferences("receiver", MODE_PRIVATE).edit();
         Gson gson = new Gson();
         String json = gson.toJson(data);
+        String object = gson.toJson(this);
         editor.putString("data",json);
+        editor.putString("upcoming", object);
         editor.apply();
     }
 
