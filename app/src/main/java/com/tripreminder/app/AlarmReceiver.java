@@ -43,16 +43,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             if (!Settings.canDrawOverlays(context)) {
                 askPermission(context);
             }
-            SharedPreferences sharedPreferences = context.getSharedPreferences("receiver", Context.MODE_PRIVATE);
-            Gson gson = new Gson();
-            String object = sharedPreferences.getString("upcoming", "");
-            upcomingTrip = gson.fromJson(object, UpcomingTrip.class);
 
+            
             String localTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
             String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue()) + "/" + LocalDate.now().getYear();
 
             Trip[] trips = UpcomingTrip.data;
             if(trips.length == 0){
+                SharedPreferences sharedPreferences = context.getSharedPreferences("receiver", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
                 String json = sharedPreferences.getString("data", "");
                 Log.i("receiver", json);
                 Type type = new TypeToken<Trip[]>(){}.getType();
@@ -176,7 +175,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     trip.setDate(dateStr);
                 }
 
-                upcomingTrip.updateStatus(trip);
+                ((UpcomingTrip)context).updateStatus(trip);
             }
         });
         noButton.setOnClickListener(new View.OnClickListener() {
