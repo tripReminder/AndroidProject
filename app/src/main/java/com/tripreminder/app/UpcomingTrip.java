@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -186,6 +187,12 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), this, data);
         recyclerView.setAdapter(adapter);
+
+        SharedPreferences.Editor editor = getSharedPreferences("receiver", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        editor.putString("data",json);
+        editor.apply();
     }
 
     // read from firebase

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
 import android.net.Uri;
 import android.os.Build;
@@ -20,10 +21,17 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -40,6 +48,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue()) + "/" + LocalDate.now().getYear();
 
             Trip[] trips = UpcomingTrip.data;
+            if(trips.length == 0){
+                SharedPreferences sharedPreferences = context.getSharedPreferences("receiver", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString("data", "");
+                Log.i("receiver", json);
+                Type type = new TypeToken<Trip[]>(){}.getType();
+                trips = gson.fromJson(json, type);
+            }
+
             for (int i = 0; i < trips.length; i++) {
                 String date = trips[i].getDate();
                 String time = trips[i].getTime();
@@ -51,8 +68,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                         upcomingTrip.chickOverlayPermission();
                     } else{
                         showAlert(context, trips[i].getTitle(),
-                                trips[i].getTitle() + "trip now is its time. Do you want to start it now ?",
-                                "Start", "Cancel");
+                                trips[i].getTitle() + " trip now is its time. Do you want to start it now ?",
+                                "Start", "Cancel", trips[i]);
                         Log.i("receiver", "alert");
                     }
 
@@ -60,11 +77,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
         }
-
-
     }
 
-    void showAlert(Context context, String title, String body, String yes, String no) {
+    void showAlert(Context context, String title, String body, String yes, String no, Trip trip) {
         final WindowManager manager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.gravity = Gravity.CENTER;
@@ -95,6 +110,71 @@ public class AlarmReceiver extends BroadcastReceiver {
             @Override
             public void onClick(View v) {
                 manager.removeView(view);
+
+                displayMap(trip.getFrom(),trip.getTo(), context);
+                startFloatingWidgetService(trip.getNote(), context);
+
+                if( trip.getType().equals("One Way Trip")&& trip.getRepetition().equals("No Repeat")){
+                    trip.setStatus(true);
+                }
+
+                if(trip.getType().equals("Round Trip")){
+                    String from = trip.getFrom();
+                    String to = trip.getTo();
+                    trip.setFrom(to);
+                    trip.setTo(from);
+
+                    String time = trip.getRoundTime();
+                    String date = trip.getRoundDate();
+                    trip.setTime(time);
+                    trip.setDate(date);
+
+                    trip.setType("One Way Trip");
+                }else if(! trip.getRepetition().equals("No Repeat")) {
+                    String dateStr = trip.getDate();
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Calendar calendar = Calendar.getInstance();
+
+                    switch (trip.getRepetition()){
+                        case "Repeat Daily":
+                            try {
+                                Date date = format.parse(dateStr);
+                                calendar.setTime(date);
+                                calendar.add(Calendar.DATE, 1);
+                                date = calendar.getTime();
+                                dateStr = format.format(date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "Repeat Weekly":
+                            try {
+                                Date date = format.parse(dateStr);
+                                calendar.setTime(date);
+                                calendar.add(Calendar.DATE, 7);
+                                date = calendar.getTime();
+                                dateStr = format.format(date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "Repeat Monthly":
+                            try {
+                                Date date = format.parse(dateStr);
+                                calendar.setTime(date);
+                                calendar.add(Calendar.DATE, 30);
+                                date = calendar.getTime();
+                                dateStr = format.format(date);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                    }
+
+                    trip.setDate(dateStr);
+                }
+
+                upcomingTrip.updateStatus(trip);
             }
         });
         noButton.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +185,24 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         });
         manager.addView(view, layoutParams);
+    }
+
+    private void displayMap(String source, String destention, Context context) {
+        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+source+"&destination=" + destention);
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+        context.startActivity(intent);
+    }
+}
+
+    private void startFloatingWidgetService(String Notes, Context context) {
+        Intent i = new Intent(context, bubbleService.class);
+        i.setAction(bubbleService.ACTION_START);
+        i.putExtra("Intent",Notes);
+        context.startService(i);
+
     }
 
     public void askPermission(Context context) {
