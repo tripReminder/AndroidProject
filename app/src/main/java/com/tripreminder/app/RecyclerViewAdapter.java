@@ -26,6 +26,11 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import static android.app.Activity.RESULT_OK;
 import static com.tripreminder.app.UpcomingTrip.noteView;
 
@@ -120,7 +125,62 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
                     upcomingTrip.chickOverlayPermission();
                 } else
-                    data[position].setStatus(true);
+                    if(data[position].getType() == "Round Trip"){
+                        String from = data[position].getFrom();
+                        String to = data[position].getTo();
+                        data[position].setFrom(to);
+                        data[position].setTo(from);
+
+                        String time = data[position].getRoundTime();
+                        String date = data[position].getRoundDate();
+                        data[position].setTime(time);
+                        data[position].setDate(date);
+                    }else if(data[position].getRepetition() != "No Repeat") {
+                        String dateStr = data[position].getRoundDate();
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        Calendar calendar = Calendar.getInstance();
+
+                        switch (data[position].getRepetition()){
+                            case "Repeat Daily":
+                                try {
+                                    Date date = format.parse(dateStr);
+                                    calendar.setTime(date);
+                                    calendar.add(Calendar.DATE, 1);
+                                    date = calendar.getTime();
+                                    dateStr = format.format(date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case "Repeat Weekly":
+                                try {
+                                    Date date = format.parse(dateStr);
+                                    calendar.setTime(date);
+                                    calendar.add(Calendar.DATE, 7);
+                                    date = calendar.getTime();
+                                    dateStr = format.format(date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case "Repeat Monthly":
+                                try {
+                                    Date date = format.parse(dateStr);
+                                    calendar.setTime(date);
+                                    calendar.add(Calendar.DATE, 30);
+                                    date = calendar.getTime();
+                                    dateStr = format.format(date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                        }
+
+                        data[position].setDate(dateStr);
+                    }else{
+                        data[position].setStatus(true);
+                    }
+
                     upcomingTrip.updateStatus(data[position]);
                     displayMap(data[position].getFrom(),data[position].getTo());
                     startFloatingWidgetService(data[position].getNote());

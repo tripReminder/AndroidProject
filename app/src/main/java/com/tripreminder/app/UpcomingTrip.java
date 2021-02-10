@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -128,7 +130,6 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-
         readRoom();
     }
 
@@ -167,12 +168,12 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     }
 
     public void readRoom(){
-//        Trip[] trips = new Trip[4];
-////        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
-////        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
-////        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
-////        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
-//////
+        Trip[] trips = new Trip[4];
+//        trips[0] = new Trip("Alex", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 1");
+//        trips[1] = new Trip("Cairo", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 2");
+//        trips[2] = new Trip("Aswan", true, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 3");
+//        trips[3] = new Trip("Portsaid", false, "g", "jj", "ff", "on way", "ismailia", "alex", "no", "note 4");
+////
         tripViewModel = ViewModelProviders.of(this).get(TripViewModel.class);
         tripViewModel.getAll(false);
 
@@ -266,8 +267,10 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     }
 
     public void chickOverlayPermission(){
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-        startActivityForResult(intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, 0);
+        }
     }
 
     public  void delete(Trip trip){

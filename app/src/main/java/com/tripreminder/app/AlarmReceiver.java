@@ -1,11 +1,13 @@
 package com.tripreminder.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.LocaleData;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -30,6 +32,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!Settings.canDrawOverlays(context)) {
+                askPermission(context);
+            }
+
             String localTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
             String localDate = LocalDate.now().getDayOfMonth() + "/" + (LocalDate.now().getMonthValue()) + "/" + LocalDate.now().getYear();
 
@@ -99,5 +105,20 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         });
         manager.addView(view, layoutParams);
+    }
+
+    public void askPermission(Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Permission")
+                .setMessage("You must let the App to display content overlay the other Apps to can use all its function")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
+                        ((Activity) context).startActivityForResult(intent, 0);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
