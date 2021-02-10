@@ -21,7 +21,8 @@
         <activity android:name=".Login" />
         <activity android:name=".RegisterUser" />
         <activity android:name=".NewTrip" />
-        <activity android:name=".TripsHistory" />
+        <activity android:name=".TripsHistory"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".UpcomingTrip"
             android:label="Trip Reminder"

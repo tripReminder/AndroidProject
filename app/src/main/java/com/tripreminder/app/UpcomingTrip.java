@@ -108,7 +108,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
         {
-            actionBar.setTitle("Trip Reminder");
+            actionBar.setTitle("Upcoming Trip");
         }
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,
@@ -116,7 +116,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        //navigationView.setCheckedItem(R.id.nav_upcoming);
+        navigationView.setCheckedItem(R.id.nav_upcoming);
     }
 
     @Override
