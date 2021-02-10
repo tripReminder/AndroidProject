@@ -170,8 +170,10 @@ public class bubbleService extends Service {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog);
         dialogBuilder.setTitle("Notes");
         String [] notes ={intent.getStringExtra("Intent")} ;
+        String[] note = notes[0].split("\n");
+
         // Add a checkbox list
-        dialogBuilder.setMultiChoiceItems(notes,null, new DialogInterface.OnMultiChoiceClickListener() {
+        dialogBuilder.setMultiChoiceItems(note,null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 // The user checked or unchecked a box
