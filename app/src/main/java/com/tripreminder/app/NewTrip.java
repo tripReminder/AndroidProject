@@ -119,11 +119,11 @@ public class NewTrip extends AppCompatActivity  {
 
             if(trip.getRepetition().equals("No Repeat")){
                 spinner2.setSelection(0);
-            }else if(trip.getType().equals("Repeat Daily")){
+            }else if(trip.getRepetition().equals("Repeat Daily")){
                 spinner2.setSelection(1);
-            }else if(trip.getType().equals("Repeat Weekly")){
+            }else if(trip.getRepetition().equals("Repeat Weekly")){
                 spinner2.setSelection(2);
-            }else if(trip.getType().equals("Repeat Monthly")){
+            }else if(trip.getRepetition().equals("Repeat Monthly")){
                 spinner2.setSelection(3);
             }
         }

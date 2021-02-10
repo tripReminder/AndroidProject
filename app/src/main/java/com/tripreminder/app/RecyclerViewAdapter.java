@@ -125,7 +125,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
                     upcomingTrip.chickOverlayPermission();
                 } else
-                    if(data[position].getType() == "Round Trip"){
+                    displayMap(data[position].getFrom(),data[position].getTo());
+                    startFloatingWidgetService(data[position].getNote());
+
+                    if( data[position].getType().equals("One Way Trip")&& data[position].getRepetition().equals("No Repeat")){
+                        data[position].setStatus(true);
+                    }
+
+                    if(data[position].getType().equals("Round Trip")){
                         String from = data[position].getFrom();
                         String to = data[position].getTo();
                         data[position].setFrom(to);
@@ -135,8 +142,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         String date = data[position].getRoundDate();
                         data[position].setTime(time);
                         data[position].setDate(date);
-                    }else if(data[position].getRepetition() != "No Repeat") {
-                        String dateStr = data[position].getRoundDate();
+
+                        data[position].setType("One Way Trip");
+                    }else if(! data[position].getRepetition().equals("No Repeat")) {
+                        String dateStr = data[position].getDate();
                         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                         Calendar calendar = Calendar.getInstance();
 
@@ -177,13 +186,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         }
 
                         data[position].setDate(dateStr);
-                    }else{
-                        data[position].setStatus(true);
                     }
 
+
+
                     upcomingTrip.updateStatus(data[position]);
-                    displayMap(data[position].getFrom(),data[position].getTo());
-                    startFloatingWidgetService(data[position].getNote());
+
             }
         });
 
