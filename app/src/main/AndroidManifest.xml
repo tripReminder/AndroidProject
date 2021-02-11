@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tripreminder.app">
 
-    <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW"
+    <uses-permission
+        android:name="android.permission.INTERNAL_SYSTEM_WINDOW"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,15 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TripReminder">
-        <activity android:name=".TripDetails"
-            android:theme="@style/AppTheme.pop"></activity>
-        <activity android:name=".Login" />
-        <activity android:name=".RegisterUser" />
-        <activity android:name=".NewTrip" />
-        <activity android:name=".TripsHistory" />
+        <activity android:name=".FirstPage"/>
+
         <activity
-            android:name=".UpcomingTrip"
-            android:label="Trip Reminder"
+            android:name=".TripDetails"
+            android:theme="@style/AppTheme.pop" />
+        <activity
+            android:name=".Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,14 +30,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" ></activity>
+        <activity android:name=".RegisterUser"/>
+
+
+        <activity android:name=".NewTrip" />
+        <activity android:name=".TripsHistory" />
+        <activity
+            android:name=".UpcomingTrip"
+            android:label="Trip Reminder"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MainActivity" />
 
         <receiver android:name=".AlarmReceiver">
-            <intent-filter >
-                <action android:name="android.intent.action.TIME_TICK"/>
-                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
-                <action android:name="android.intent.action.DATE_CHANGED"/>
-                <action android:name="com.tripreminder.date"/>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="com.tripreminder.date" />
             </intent-filter>
         </receiver>
 

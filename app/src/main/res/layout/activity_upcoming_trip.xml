@@ -7,8 +7,10 @@
     android:layout_height="match_parent"
     android:background="#02BCAA"
     android:fitsSystemWindows="true"
+    android:visibility="visible"
     tools:context=".UpcomingTrip"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    tools:visibility="visible">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -28,27 +30,49 @@
         android:background="#FFFFFF"
         android:contentDescription="@string/addBtn">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#CCCCCC"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="@string/addBtn"/>
+        <ImageView
+            android:id="@+id/noTripImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/notrip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/noTrIPTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="420dp"
+            android:fontFamily="@font/architects_daughter"
+            android:text="@string/noTrip"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#b3e9d3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="@string/addBtn" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#01AC9B"
+            android:background="#b3e9d3"
             app:layout_constraintTop_toTopOf="parent"
             app:title="Trip Reminder"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="@color/cardview_light_background" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -108,6 +132,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

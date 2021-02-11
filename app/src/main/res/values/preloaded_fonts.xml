@@ -2,6 +2,11 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aclonica</item>
+        <item>@font/architects_daughter</item>
+        <item>@font/average</item>
         <item>@font/baloo</item>
+        <item>@font/passion_one</item>
+        <item>@font/passion_one_bold</item>
+        <item>@font/rochester</item>
     </array>
 </resources>
