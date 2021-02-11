@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/row"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/architects_daughter"
             android:text="Trip Name"
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -32,23 +33,25 @@
 
         <ImageView
             android:id="@+id/tripimg"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="345dp"
+            android:layout_height="164dp"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="2dp"
             app:layout_constraintBottom_toTopOf="@+id/showBtn"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/statusImg"
-            app:srcCompat="@drawable/mytrip" />
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/history" />
 
         <ImageView
             android:id="@+id/statusImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/status" />
@@ -57,8 +60,14 @@
             android:id="@+id/showBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/submit_btn"
+            android:fontFamily="@font/architects_daughter"
             android:text="@string/showDetails"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="#b3e9d3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -67,7 +76,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="43dp"
+            android:background="@drawable/submit_btn"
+            android:fontFamily="@font/average"
             android:text="@string/delete"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:backgroundTint="#b3e9d3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tripimg" />
     </androidx.constraintlayout.widget.ConstraintLayout>

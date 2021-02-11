@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.txusballesteros.bubbles.BubbleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="65dp"
-android:layout_height="wrap_content"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/bubble"
-android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bubble"
+    android:layout_width="85dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-<de.hdodenhof.circleimageview.CircleImageView
-    android:src="@mipmap/ic_launcher_round"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:id="@+id/bubble_img"
-    tools:ignore="ContentDescription"
-    />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/bubble_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/bubble"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/bubble_cancel"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:background="@drawable/btn_circle"
-        app:srcCompat="@drawable/quantum_ic_clear_grey600_24" />
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        app:srcCompat="@drawable/ic_close" />
 
 
 </com.txusballesteros.bubbles.BubbleLayout>

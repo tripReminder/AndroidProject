@@ -1,233 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="false"
+    xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8a8883"
     tools:context=".NewTrip">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/addtrippic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
+        android:layout_height="wrap_content"
+        android:fillViewport="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtTripName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edtTripName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/trip_name" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtStartPoint1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtStartPoint"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/new_trip_textview"
+                    android:hint="@string/trip_name"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edtStartPoint1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_location"
-                android:inputType="textPersonName"
-                android:hint="@string/start_point" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtStartPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/new_trip_textview"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:hint="@string/start_point"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtEndPoint1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtEndPoint"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edtEndPoint1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_location"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:hint="@string/end_point" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEndPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/new_trip_textview"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:ems="10"
+                    android:hint="@string/end_point"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edtNotes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/notes"
-                android:inputType="textMultiLine"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/new_trip_textview"
+                    android:hint="@string/notes"
+                    android:inputType="textMultiLine"
+                    android:textColorHint="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="400dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
 
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/trip_details"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.072"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@android:style/Widget.EditText"/>
+                <TextView
+                    android:id="@+id/textView"
+                    style="@android:style/Widget.EditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/passion_one"
+                    android:text="@string/trip_details"
+                    android:textColor="#b3e9d3"
+                    android:textSize="35dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.073"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageDate"
-                android:layout_width="89dp"
-                android:layout_height="69dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.582"
-                app:layout_constraintStart_toEndOf="@+id/imageTime"
-                app:layout_constraintTop_toTopOf="@+id/imageTime"
-                app:srcCompat="@android:drawable/ic_menu_today" />
-
-
-            <ImageView
-                android:id="@+id/imageTime"
-                android:layout_width="96dp"
-                android:layout_height="75dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                <ImageView
+                    android:id="@+id/imageDate"
+                    android:layout_width="89dp"
+                    android:layout_height="69dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.582"
+                    app:layout_constraintStart_toEndOf="@+id/imageTime"
+                    app:layout_constraintTop_toTopOf="@+id/imageTime"
+                    app:srcCompat="@drawable/ic_calendar" />
 
 
+                <ImageView
+                    android:id="@+id/imageTime"
+                    android:layout_width="96dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool" />
 
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="150dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:entries="@array/trip_type"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/txtTime" />
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="149dp"
-                android:layout_height="31dp"
-                android:layout_marginStart="32dp"
-                android:entries="@array/trip_repetition"
-                app:layout_constraintStart_toEndOf="@+id/spinner1"
-                app:layout_constraintTop_toTopOf="@+id/spinner1" />
 
-            <TextView
-                android:id="@+id/txtTime"
-                android:layout_width="94dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:focusable="true"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                app:layout_constraintStart_toStartOf="@+id/imageTime"
-                app:layout_constraintTop_toBottomOf="@+id/imageTime"
-                tools:text="0000" />
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="130dp"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#bbb2b2"
+                    android:entries="@array/trip_type"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTime" />
 
-            <TextView
-                android:id="@+id/txtDate"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:focusable="true"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                app:layout_constraintStart_toStartOf="@+id/imageDate"
-                app:layout_constraintTop_toBottomOf="@+id/imageDate"
-                tools:text="00000000" />
-            <ImageView
-                android:id="@+id/roundTime"
-                android:layout_width="96dp"
-                android:layout_height="75dp"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="@+id/spinner1"
-                app:layout_constraintTop_toBottomOf="@+id/spinner1"
-                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="130dp"
+                    android:layout_height="31dp"
+                    android:layout_marginStart="60dp"
+                    android:background="#bbb2b2"
+                    android:entries="@array/trip_repetition"
+                    app:layout_constraintStart_toEndOf="@+id/spinner1"
+                    app:layout_constraintTop_toTopOf="@+id/spinner1" />
 
-            <ImageView
-                android:id="@+id/roundDate"
-                android:layout_width="89dp"
-                android:layout_height="69dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="4dp"
-                android:visibility="invisible"
-                app:layout_constraintStart_toEndOf="@+id/roundTime"
-                app:layout_constraintTop_toTopOf="@+id/roundTime"
-                app:srcCompat="@android:drawable/ic_menu_today" />
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="94dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/imageTime"
+                    app:layout_constraintTop_toBottomOf="@+id/imageTime"
+                    tools:text="0000" />
 
-            <TextView
-                android:id="@+id/txtRoundDate"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:visibility="invisible"
-                android:focusable="true"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                app:layout_constraintStart_toStartOf="@+id/roundDate"
-                app:layout_constraintTop_toBottomOf="@+id/roundDate"
-                tools:text="0000" />
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="110dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:textColor="#b3e9d3"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/imageDate"
+                    app:layout_constraintTop_toBottomOf="@+id/imageDate"
+                    tools:text="00000000" />
 
-            <TextView
-                android:id="@+id/txtRoundTime"
-                android:layout_width="94dp"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:visibility="invisible"
-                android:focusable="true"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                app:layout_constraintStart_toStartOf="@+id/roundTime"
-                app:layout_constraintTop_toBottomOf="@+id/roundTime"
-                tools:text="0000"
-                />
+                <ImageView
+                    android:id="@+id/roundTime"
+                    android:layout_width="96dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/spinner1"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner1"
+                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool" />
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="64dp"
-                android:text="@android:string/cancel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/btnAdd"
-                app:layout_constraintTop_toTopOf="@+id/btnAdd" />
+                <ImageView
+                    android:id="@+id/roundDate"
+                    android:layout_width="89dp"
+                    android:layout_height="69dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/roundTime"
+                    app:layout_constraintTop_toTopOf="@+id/roundTime"
+                    app:srcCompat="@drawable/ic_calendar" />
 
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
-                android:text="@string/add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
-                app:layout_constraintVertical_bias="0.529" />
+                <TextView
+                    android:id="@+id/txtRoundDate"
+                    android:layout_width="110dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:textColor="#b3e9d3"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/roundDate"
+                    app:layout_constraintTop_toBottomOf="@+id/roundDate"
+                    tools:text="0000000" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-</ScrollView>
+                <TextView
+                    android:id="@+id/txtRoundTime"
+                    android:layout_width="94dp"
+                    android:layout_height="25dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/roundTime"
+                    app:layout_constraintTop_toBottomOf="@+id/roundTime"
+                    tools:text="0000" />
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/unround_btn"
+                    android:fontFamily="@font/passion_one_bold"
+                    android:text="@android:string/cancel"
+                    android:textColor="#8a8883"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#b3e9d3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.745"
+                    app:layout_constraintStart_toEndOf="@+id/btnAdd"
+                    app:layout_constraintTop_toBottomOf="@+id/txtRoundDate"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@drawable/unround_btn"
+                    android:text="@string/add"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#b3e9d3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
+                    app:layout_constraintVertical_bias="1.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
