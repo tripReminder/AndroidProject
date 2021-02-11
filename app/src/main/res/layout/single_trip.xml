@@ -37,6 +37,7 @@
             android:layout_height="164dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/history"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toTopOf="@+id/showBtn"
             app:layout_constraintEnd_toEndOf="@+id/statusImg"
@@ -58,7 +59,9 @@
             android:id="@+id/showBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/submit_btn"
             android:fontFamily="@font/architects_daughter"
             android:text="@string/showDetails"
@@ -67,12 +70,14 @@
             android:textStyle="bold"
             app:backgroundTint="#b3e9d3"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tripimg" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tripimg" />
 
         <Button
             android:id="@+id/deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
             android:background="@drawable/submit_btn"
             android:fontFamily="@font/architects_daughter"
             android:text="@string/delete"
@@ -81,8 +86,8 @@
             android:textStyle="bold"
             app:backgroundTint="#b3e9d3"
             app:layout_constraintBottom_toBottomOf="@+id/showBtn"
-            app:layout_constraintEnd_toEndOf="@+id/tripimg"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.021"
             app:layout_constraintStart_toEndOf="@+id/showBtn"
             app:layout_constraintTop_toTopOf="@+id/showBtn"
             app:layout_constraintVertical_bias="0.0" />
