@@ -4,4 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    android:background="#8A8883"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/splashtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/architects_daughter"
+        android:text="TRIP\nREMINDER"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@+id/splshimg"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/splshimg"
+        app:layout_constraintTop_toBottomOf="@+id/splshimg" />
+
+    <ImageView
+        android:id="@+id/splshimg"
+        android:layout_width="241dp"
+        android:layout_height="211dp"
+        android:layout_marginTop="124dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_travel" />
+</androidx.constraintlayout.widget.ConstraintLayout>
