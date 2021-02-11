@@ -59,6 +59,7 @@ public class NewTrip extends AppCompatActivity  {
     TextView txtRoundTime , txtRoundDate;
     String t_title ,t_time,t_Date,t_from,t_to;
 
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Trip");
 
@@ -198,22 +199,41 @@ public class NewTrip extends AppCompatActivity  {
                 String t_roundDate = txtRoundDate.getText().toString();
 
                 if (t_title.length() != 0 && t_from.length() != 0 && t_to.length() != 0 &&
-                        t_time.length() != 0 && t_Date.length() != 0) {
+                            t_time.length() != 0 && t_Date.length() != 0) {
+                    if(spinner.getSelectedItem().toString().equals("One Way Trip")) {
 
-                    Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
-                            t_repeation, t_note, t_roundTime, t_roundDate);
-                    tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
+                        Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
+                                t_repeation, t_note, t_roundTime, t_roundDate);
+                        tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
 
-                    if (getIntent().getStringExtra("type").equals("add")) {
-                        tripViewModel.insert(model);
-                    } else if (getIntent().getStringExtra("type").equals("update")) {
-                        Trip trip = (Trip) getIntent().getSerializableExtra("trip");
-                        model.setTrip_id(trip.getTrip_id());
-                        tripViewModel.update(model);
+                        if (getIntent().getStringExtra("type").equals("add")) {
+                            tripViewModel.insert(model);
+                        } else if (getIntent().getStringExtra("type").equals("update")) {
+                            Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+                            model.setTrip_id(trip.getTrip_id());
+                            tripViewModel.update(model);
+                        }
+
+                        Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        if (t_roundTime.length() != 0 && t_roundDate.length() != 0) {
+                            Trip model = new Trip(t_title, false, "", t_time, t_Date, t_type, t_from, t_to,
+                                    t_repeation, t_note, t_roundTime, t_roundDate);
+                            tripViewModel = ViewModelProviders.of(NewTrip.this).get(TripViewModel.class);
+
+                            if (getIntent().getStringExtra("type").equals("add")) {
+                                tripViewModel.insert(model);
+                            } else if (getIntent().getStringExtra("type").equals("update")) {
+                                Trip trip = (Trip) getIntent().getSerializableExtra("trip");
+                                model.setTrip_id(trip.getTrip_id());
+                                tripViewModel.update(model);
+                            }
+
+                            Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
                     }
-
-                    Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
-                    finish();
                 }
                 if(t_title.length() == 0){
                     tripName.setError("Field can’t be empty");
@@ -240,28 +260,23 @@ public class NewTrip extends AppCompatActivity  {
                 }else{
                     txtDate.setError(null);
                 }
-                if(spinner.getSelectedItem().toString().equals("Round Trip")){
-                    if(t_roundTime.length() == 0){
-                        txtRoundTime.setError("Time Required");
-                    }else{
-                        txtRoundTime.setError(null);
-                    }
-                    if(t_roundDate.length() == 0){
-                        txtRoundDate.setError("Date Required");
-                    }else{
-                        txtRoundDate.setError(null);
-                    }
-
-                Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_LONG).show();
-                finish();
+                if(t_roundTime.length() == 0){
+                    txtRoundTime.setError("Time Required");
+                }else{
+                    txtRoundTime.setError(null);
                 }
-
+                if(t_roundDate.length() == 0){
+                    txtRoundDate.setError("Date Required");
+                }else{
+                    txtRoundDate.setError(null);
+                }
             }
         });
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewTrip.this , MainActivity.class));
+                finish();
             }
         });
 

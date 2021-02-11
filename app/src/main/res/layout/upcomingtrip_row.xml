@@ -13,7 +13,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        app:cardBackgroundColor="#AEA7C1"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/cardview_border">
+            android:background="#FAFAFA">
 
             <TextView
                 android:id="@+id/timeLbl"
@@ -33,6 +32,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:text="11111"
+                android:textColor="#757575"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="22222222222"
+                android:textColor="#757575"
                 app:layout_constraintEnd_toEndOf="@+id/timeLbl"
                 app:layout_constraintStart_toStartOf="@+id/timeLbl"
                 app:layout_constraintTop_toBottomOf="@+id/timeLbl" />
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="4444444444"
+                android:textColor="#757575"
                 app:layout_constraintEnd_toEndOf="@+id/fromLbl"
                 app:layout_constraintStart_toStartOf="@+id/fromLbl"
                 app:layout_constraintTop_toBottomOf="@+id/fromLbl" />
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="3333333333"
+                android:textColor="#757575"
                 app:layout_constraintEnd_toEndOf="@+id/typeLbl"
                 app:layout_constraintStart_toStartOf="@+id/typeLbl"
                 app:layout_constraintTop_toBottomOf="@+id/typeLbl" />
@@ -74,7 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/sanchez"
                 android:text="TextView"
+                android:textColor="#76726B"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +90,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:fontFamily="@font/sanchez"
                 android:text="@string/timeLbl"
+                android:textColor="#76726B"
+                android:textColorHint="#76726B"
                 app:layout_constraintStart_toStartOf="@+id/titleLbl"
                 app:layout_constraintTop_toBottomOf="@+id/titleLbl" />
 
@@ -94,7 +102,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="44dp"
+                android:fontFamily="@font/sanchez"
                 android:text="@string/toLbl"
+                android:textColor="#757575"
+                app:layout_constraintEnd_toStartOf="@+id/toLbl"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -103,7 +115,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="27dp"
+                android:fontFamily="@font/sanchez"
                 android:text="@string/fromLbl"
+                android:textColor="#757575"
+                app:layout_constraintEnd_toStartOf="@+id/fromLbl"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -112,50 +128,59 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="29dp"
+                android:fontFamily="@font/sanchez"
                 android:text="@string/typeLbl"
+                android:textColor="#757575"
+                app:layout_constraintEnd_toStartOf="@+id/typeLbl"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <Button
                 android:id="@+id/menuBtn"
                 android:layout_width="35dp"
-                android:layout_height="28dp"
-                android:layout_marginEnd="16dp"
-                android:background="@android:drawable/ic_menu_sort_by_size"
-                app:backgroundTint="#FFFFFF"
+                android:layout_height="29dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/menu_icon"
+                app:backgroundTint="#34D4B9"
                 app:layout_constraintBottom_toBottomOf="@+id/titleLbl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/titleLbl"
+                app:layout_constraintVertical_bias="1.0"
                 app:rippleColor="#000000" />
 
             <Button
                 android:id="@+id/startBtn"
                 android:layout_width="77dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_border"
+                android:background="#B3E9D3"
                 android:freezesText="true"
                 android:text="@string/startBtn"
                 android:textAlignment="center"
                 android:textColor="#000000"
+                android:textColorHighlight="#FFFFFF"
                 android:textSize="12sp"
-                app:backgroundTint="@drawable/btn_border"
+                app:backgroundTint="#B3E9D3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toLbl" />
+                app:layout_constraintTop_toBottomOf="@+id/toLbl"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/notesBtn"
-                android:layout_width="31dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="100dp"
-                android:background="@android:drawable/stat_notify_chat"
-                app:backgroundTint="#FFFFFF"
+                android:layout_width="43dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="124dp"
+                android:background="@drawable/ic_notes"
+
+                app:backgroundTint="@drawable/ic_notes"
                 app:layout_constraintBottom_toBottomOf="@+id/startBtn"
                 app:layout_constraintStart_toEndOf="@+id/startBtn"
-                app:layout_constraintTop_toTopOf="@+id/startBtn" />
+                app:layout_constraintTop_toTopOf="@+id/startBtn"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
