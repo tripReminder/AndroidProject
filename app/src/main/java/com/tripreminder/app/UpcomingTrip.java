@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     FloatingActionButton addBtn, historyBtn;
     TripViewModel tripViewModel;
     Button closeAlert;
+    ImageView background;
+    TextView emptyTxt;
     static TextView noteLbl;
     static CardView noteView;
     public static final String TAG= "my tag";
@@ -75,6 +79,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         noteLbl = findViewById(R.id.noteLbl);
         noteView = findViewById(R.id.noteView);
         closeAlert = findViewById(R.id.closeAlert);
+        background = findViewById(R.id.noTripImg);
+        emptyTxt = findViewById(R.id.noTrIPTxt);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +189,13 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         }
         TripViewModel.flag=false;
 
+        if(data.length != 0){
+            background.setVisibility(View.INVISIBLE);
+            emptyTxt.setVisibility(View.INVISIBLE);
+        }else {
+            background.setVisibility(View.VISIBLE);
+            emptyTxt.setVisibility(View.VISIBLE);
+        }
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getApplicationContext(), this, data);

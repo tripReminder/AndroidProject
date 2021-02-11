@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#8a8883"
     tools:context=".NewTrip">
 
@@ -41,12 +41,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/new_trip_textview"
                     android:hint="@string/trip_name"
                     android:inputType="textPersonName"
-                    android:text="ghjk"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black" />
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +57,6 @@
                     android:id="@+id/edtStartPoint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/new_trip_textview"
                     android:drawableLeft="@drawable/ic_location"
                     android:hint="@string/start_point"
                     android:inputType="textPersonName"
@@ -80,7 +76,6 @@
                     android:id="@+id/edtEndPoint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/new_trip_textview"
                     android:drawableLeft="@drawable/ic_location"
                     android:ems="10"
                     android:hint="@string/end_point"
@@ -98,7 +93,6 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/new_trip_textview"
                     android:hint="@string/notes"
                     android:inputType="textMultiLine"
                     android:textColor="@color/black"
@@ -108,7 +102,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp">
+                android:layout_height="wrap_content">
 
 
                 <TextView
@@ -130,12 +124,12 @@
                     android:id="@+id/imageDate"
                     android:layout_width="89dp"
                     android:layout_height="69dp"
+                    android:layout_marginStart="80dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageTime"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.582"
                     app:layout_constraintStart_toEndOf="@+id/imageTime"
                     app:layout_constraintTop_toTopOf="@+id/imageTime"
-                    app:srcCompat="@drawable/ic_calendar" />
+                    app:srcCompat="@drawable/ic_calendar"
+                    tools:ignore="VectorDrawableCompat" />
 
 
                 <ImageView
@@ -146,7 +140,8 @@
                     android:layout_marginTop="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
-                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool" />
+                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool"
+                    tools:ignore="VectorDrawableCompat" />
 
 
                 <Spinner
@@ -167,6 +162,7 @@
                     android:layout_height="31dp"
                     android:background="#bbb2b2"
                     android:entries="@array/trip_repetition"
+                    app:layout_constraintBottom_toBottomOf="@+id/spinner1"
                     app:layout_constraintEnd_toEndOf="@+id/txtDate"
                     app:layout_constraintStart_toStartOf="@+id/txtDate"
                     app:layout_constraintTop_toTopOf="@+id/spinner1" />
@@ -213,7 +209,7 @@
                     app:layout_constraintStart_toStartOf="@+id/spinner1"
                     app:layout_constraintTop_toBottomOf="@+id/spinner1"
                     app:srcCompat="@drawable/ic_circular_alarm_clock_tool"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/roundDate"
@@ -225,7 +221,7 @@
                     app:layout_constraintStart_toStartOf="@+id/spinner2"
                     app:layout_constraintTop_toTopOf="@+id/roundTime"
                     app:srcCompat="@drawable/ic_calendar"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txtRoundDate"
@@ -243,7 +239,7 @@
                     app:layout_constraintStart_toStartOf="@+id/roundDate"
                     app:layout_constraintTop_toBottomOf="@+id/roundDate"
                     tools:text="0000000"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txtRoundTime"
@@ -261,7 +257,7 @@
                     app:layout_constraintStart_toStartOf="@+id/roundTime"
                     app:layout_constraintTop_toBottomOf="@+id/roundTime"
                     tools:text="0000"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnCancel"
@@ -276,7 +272,6 @@
                     app:backgroundTint="#b3e9d3"
                     app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
                     app:layout_constraintEnd_toEndOf="@+id/spinner2"
-                    app:layout_constraintHorizontal_bias="0.745"
                     app:layout_constraintStart_toStartOf="@+id/spinner2"
                     app:layout_constraintTop_toTopOf="@+id/btnAdd" />
 
@@ -284,14 +279,15 @@
                     android:id="@+id/btnAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/unround_btn"
                     android:text="@string/add"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:backgroundTint="#b3e9d3"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/spinner1"
                     app:layout_constraintStart_toStartOf="@+id/spinner1"
                     app:layout_constraintTop_toBottomOf="@+id/txtRoundTime" />
@@ -299,4 +295,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
