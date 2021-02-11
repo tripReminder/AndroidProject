@@ -8,8 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.LocaleData;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -186,6 +189,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         });
         manager.addView(view, layoutParams);
+
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone ringtone = RingtoneManager.getRingtone(context, notification);
+        ringtone.play();
+
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(2000);
     }
 
     private void displayMap(String source, String destention, Context context) {

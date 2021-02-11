@@ -228,8 +228,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         Handler handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message message) {
-                if(message.arg1 == 1)
-                   readRoom();
+                readRoom();
                 Log.i("tag","handler sync");
                 return false;
             }
@@ -241,21 +240,21 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 super.run();
                 Log.i("tag","thread");
 
-                for (Trip firebaseTrip:firebaseTrips) {
-                    boolean flag = false;
-                    for (Trip roomTrip : roomTrips)
-                    {
-                        if(roomTrip.getTrip_id()== firebaseTrip.getTrip_id())
-                        {
-                            tripViewModel.update(firebaseTrip);
-                            flag=true;
-                        }
+                boolean flag = false;
+                for (Trip firebaseTrip : firebaseTrips) {
 
+                    for (Trip roomTrip : roomTrips) {
+                        if(roomTrip.getTrip_id() == firebaseTrip.getTrip_id()) {
+                            tripViewModel.update(firebaseTrip);
+                            flag = true;
+                        }
                     }
+
                     if(!flag) {
                         tripViewModel.insert(firebaseTrip);
                     }
 
+                    flag = false;
                 }
 
 
@@ -267,7 +266,6 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
 
 
                 Message message = new Message();
-                message.arg1 = 1;
                 handler.sendMessage(message);
             }
         }.start();
