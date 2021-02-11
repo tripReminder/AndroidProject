@@ -146,8 +146,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/titleLbl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/titleLbl"
-                app:layout_constraintVertical_bias="1.0"
-                app:rippleColor="#000000" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/startBtn"
@@ -173,13 +172,16 @@
                 android:id="@+id/notesBtn"
                 android:layout_width="43dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="124dp"
+                android:layout_marginStart="80dp"
                 android:background="@drawable/ic_notes"
 
                 app:backgroundTint="@drawable/ic_notes"
                 app:layout_constraintBottom_toBottomOf="@+id/startBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/startBtn"
-                app:layout_constraintTop_toTopOf="@+id/startBtn" />
+                app:layout_constraintTop_toTopOf="@+id/startBtn"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
