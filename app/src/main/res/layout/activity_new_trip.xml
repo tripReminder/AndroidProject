@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.6"
         android:background="@drawable/addtrippic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +44,8 @@
                     android:background="@drawable/new_trip_textview"
                     android:hint="@string/trip_name"
                     android:inputType="textPersonName"
+                    android:text="ghjk"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,6 +64,7 @@
                     android:drawableLeft="@drawable/ic_location"
                     android:hint="@string/start_point"
                     android:inputType="textPersonName"
+                    android:textColor="#000000"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,6 +101,7 @@
                     android:background="@drawable/new_trip_textview"
                     android:hint="@string/notes"
                     android:inputType="textMultiLine"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,6 +130,7 @@
                     android:id="@+id/imageDate"
                     android:layout_width="89dp"
                     android:layout_height="69dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageTime"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.582"
                     app:layout_constraintStart_toEndOf="@+id/imageTime"
@@ -136,9 +142,9 @@
                     android:id="@+id/imageTime"
                     android:layout_width="96dp"
                     android:layout_height="75dp"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     app:srcCompat="@drawable/ic_circular_alarm_clock_tool" />
 
@@ -151,17 +157,18 @@
                     android:layout_marginTop="16dp"
                     android:background="#bbb2b2"
                     android:entries="@array/trip_type"
-                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="@+id/txtTime"
+                    app:layout_constraintStart_toStartOf="@+id/txtTime"
                     app:layout_constraintTop_toBottomOf="@+id/txtTime" />
 
                 <Spinner
                     android:id="@+id/spinner2"
                     android:layout_width="130dp"
                     android:layout_height="31dp"
-                    android:layout_marginStart="60dp"
                     android:background="#bbb2b2"
                     android:entries="@array/trip_repetition"
-                    app:layout_constraintStart_toEndOf="@+id/spinner1"
+                    app:layout_constraintEnd_toEndOf="@+id/txtDate"
+                    app:layout_constraintStart_toStartOf="@+id/txtDate"
                     app:layout_constraintTop_toTopOf="@+id/spinner1" />
 
                 <TextView
@@ -175,6 +182,7 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/imageTime"
                     app:layout_constraintStart_toStartOf="@+id/imageTime"
                     app:layout_constraintTop_toBottomOf="@+id/imageTime"
                     tools:text="0000" />
@@ -190,6 +198,7 @@
                     android:textColor="#b3e9d3"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/imageDate"
                     app:layout_constraintStart_toStartOf="@+id/imageDate"
                     app:layout_constraintTop_toBottomOf="@+id/imageDate"
                     tools:text="00000000" />
@@ -198,22 +207,25 @@
                     android:id="@+id/roundTime"
                     android:layout_width="96dp"
                     android:layout_height="75dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="20dp"
                     android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner1"
                     app:layout_constraintStart_toStartOf="@+id/spinner1"
                     app:layout_constraintTop_toBottomOf="@+id/spinner1"
-                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool" />
+                    app:srcCompat="@drawable/ic_circular_alarm_clock_tool"
+                    tools:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/roundDate"
                     android:layout_width="89dp"
                     android:layout_height="69dp"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="4dp"
                     android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@+id/roundTime"
+                    app:layout_constraintBottom_toBottomOf="@+id/roundTime"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner2"
+                    app:layout_constraintStart_toStartOf="@+id/spinner2"
                     app:layout_constraintTop_toTopOf="@+id/roundTime"
-                    app:srcCompat="@drawable/ic_calendar" />
+                    app:srcCompat="@drawable/ic_calendar"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/txtRoundDate"
@@ -227,9 +239,11 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/roundDate"
                     app:layout_constraintStart_toStartOf="@+id/roundDate"
                     app:layout_constraintTop_toBottomOf="@+id/roundDate"
-                    tools:text="0000000" />
+                    tools:text="0000000"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/txtRoundTime"
@@ -243,43 +257,44 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/roundTime"
                     app:layout_constraintStart_toStartOf="@+id/roundTime"
                     app:layout_constraintTop_toBottomOf="@+id/roundTime"
-                    tools:text="0000" />
+                    tools:text="0000"
+                    tools:visibility="visible" />
 
                 <Button
                     android:id="@+id/btnCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/unround_btn"
-                    android:fontFamily="@font/passion_one_bold"
+                    android:fontFamily="sans-serif-medium"
                     android:text="@android:string/cancel"
-                    android:textColor="#8a8883"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:backgroundTint="#b3e9d3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner2"
                     app:layout_constraintHorizontal_bias="0.745"
-                    app:layout_constraintStart_toEndOf="@+id/btnAdd"
-                    app:layout_constraintTop_toBottomOf="@+id/txtRoundDate"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintStart_toStartOf="@+id/spinner2"
+                    app:layout_constraintTop_toTopOf="@+id/btnAdd" />
 
                 <Button
                     android:id="@+id/btnAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/unround_btn"
                     android:text="@string/add"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:backgroundTint="#b3e9d3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtRoundTime"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintEnd_toEndOf="@+id/spinner1"
+                    app:layout_constraintStart_toStartOf="@+id/spinner1"
+                    app:layout_constraintTop_toBottomOf="@+id/txtRoundTime" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

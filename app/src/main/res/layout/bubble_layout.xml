@@ -16,9 +16,10 @@
 
     <ImageView
         android:id="@+id/bubble_cancel"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        app:srcCompat="@drawable/ic_close" />
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/cardview_border"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 
 </com.txusballesteros.bubbles.BubbleLayout>

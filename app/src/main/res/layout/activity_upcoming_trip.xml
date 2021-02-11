@@ -35,6 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/notrip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,13 +44,13 @@
             android:id="@+id/noTrIPTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:layout_marginTop="420dp"
             android:fontFamily="@font/architects_daughter"
             android:text="@string/noTrip"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
