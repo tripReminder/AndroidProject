@@ -4,6 +4,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/teal_700</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:statusBarColor">#000000</item>
+        <item name="android:statusBarColor">#b3e9d3</item>
     </style>
 </resources>

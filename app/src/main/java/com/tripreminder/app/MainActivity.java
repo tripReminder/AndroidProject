@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
-    private  static int SPLASH_TIME_OUT=4000;
+    private  static int SPLASH_TIME_OUT=3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-               Intent splash = new Intent(MainActivity.this,FirstPage.class);
+               Intent splash = new Intent(MainActivity.this,UpcomingTrip.class);
                startActivity(splash);
                finish();
             }

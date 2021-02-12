@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,9 @@ public class RegisterUser extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText editTxtName, editTxtEmail, editTxtPassword;
     Button btnRegister;
+    TextView signIntxt;
+
+
     private static final String TAG = "TAG";
     private static  final String MY_PREFS_NAME= "Shared prefrence";
 
@@ -35,6 +39,17 @@ public class RegisterUser extends AppCompatActivity {
         editTxtName = findViewById(R.id.txtName);
         editTxtEmail = findViewById(R.id.txtEmail);
         editTxtPassword = findViewById(R.id.txtPassword);
+        signIntxt = findViewById(R.id.singInTxt);
+
+        signIntxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterUser.this,Login.class);
+                startActivity(intent);
+            }
+        });
+
+
         btnRegister = findViewById(R.id.RegisterBtn);
 
         if (mAuth.getCurrentUser() != null) {
@@ -71,7 +86,7 @@ public class RegisterUser extends AppCompatActivity {
 
 
                                 Toast.makeText(RegisterUser.this, "User created", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), TripsHistory.class));
+                                startActivity(new Intent(getApplicationContext(), Login.class));
                             } else {
                                 Toast.makeText(RegisterUser.this, "Filed to create user" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 

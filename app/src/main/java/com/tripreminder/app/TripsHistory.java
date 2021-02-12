@@ -15,8 +15,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +27,7 @@ public class TripsHistory extends AppCompatActivity implements NavigationView.On
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private TripViewModel viewModel;
+    String userId;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -53,6 +56,9 @@ public class TripsHistory extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener( this);
         navigationView.setCheckedItem(R.id.nav_history);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId", "");
 
     }
 
@@ -114,16 +120,32 @@ public class TripsHistory extends AppCompatActivity implements NavigationView.On
             case R.id.nav_history:
                 break;
             case R.id.nav_sync:
-                upcomingTrip.readFirebase();
+                if(userId != null)
+                   upcomingTrip.readFirebase();
+                else {
+
+                    Toast.makeText(getApplicationContext(), "You must login first", Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
+            case R.id.nav_login:
+                if(userId != null)
+                {
+                    item.setTitle("Logout");
+                    item.setIcon(R.drawable.ic_logout);
+                    Intent intent = new Intent(TripsHistory.this,Login.class);
+                    startActivity(intent);
+                }
+                else {
+                    item.setTitle("Login");
+                    item.setIcon(R.drawable.login_icon);
+                    FirebaseAuth.getInstance().signOut();
 
-                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.remove("userId");
-                editor.apply();
+                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                    editor.remove("userId");
+                    editor.apply();
 
-                startActivity(new Intent(TripsHistory.this,RegisterUser.class));
+                    startActivity(new Intent(TripsHistory.this, RegisterUser.class));
+                }
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

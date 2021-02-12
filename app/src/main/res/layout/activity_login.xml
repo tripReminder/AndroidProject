@@ -135,4 +135,30 @@
         app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toEndOf="@+id/accountTxt"
         app:layout_constraintTop_toBottomOf="@+id/Forget" />
+
+    <TextView
+        android:id="@+id/googleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:fontFamily="@font/average"
+        android:text="@string/google"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/accountTxt"
+        app:layout_constraintTop_toBottomOf="@+id/accountTxt" />
+
+    <ImageView
+        android:id="@+id/googleImg"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/googleTxt"
+        app:layout_constraintEnd_toStartOf="@+id/googleTxt"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/accountTxt"
+        app:layout_constraintTop_toTopOf="@+id/googleTxt"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>

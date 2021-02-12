@@ -12,13 +12,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,9 +40,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class UpcomingTrip extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
@@ -57,9 +50,11 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
     TextView emptyTxt;
     static TextView noteLbl;
     static CardView noteView;
+    MenuItem myItem;
     public static final String TAG= "my tag";
     public static Trip[] data = new Trip[0];
     private static  final String MY_PREFS_NAME= "Shared prefrence";
+    String userId;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -81,6 +76,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         closeAlert = findViewById(R.id.closeAlert);
         background = findViewById(R.id.noTripImg);
         emptyTxt = findViewById(R.id.noTrIPTxt);
+        myItem = findViewById(R.id.nav_login);
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +96,8 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId", "");
 
         s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
         s_intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
@@ -126,6 +124,17 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_upcoming);
+
+//        if(userId != null)
+//        {
+//
+//            myItem.setTitle("Logout");
+//            myItem.setIcon(R.drawable.ic_logout);
+//        }
+//        else {
+//            myItem.setTitle("Login");
+//            myItem.setIcon(R.drawable.login_icon);
+//        }
     }
 
     @Override
@@ -158,16 +167,32 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(UpcomingTrip.this,TripsHistory.class));
                 break;
             case R.id.nav_sync:
-                readFirebase();
+                if(userId != null)
+                    readFirebase();
+                else {
+
+                    Toast.makeText(getApplicationContext(), "You must login first", Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
+            case R.id.nav_login:
+                if(userId != null)
+                {
+                    item.setTitle("Logout");
+                    item.setIcon(R.drawable.ic_logout);
+                    Intent intent = new Intent(UpcomingTrip.this,Login.class);
+                    startActivity(intent);
+                }
+                else {
+                    item.setTitle("Login");
+                    item.setIcon(R.drawable.login_icon);
+                    FirebaseAuth.getInstance().signOut();
 
-                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.remove("userId");
-                editor.apply();
+                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                    editor.remove("userId");
+                    editor.apply();
 
-                startActivity(new Intent(UpcomingTrip.this,RegisterUser.class));
+                    startActivity(new Intent(UpcomingTrip.this, RegisterUser.class));
+                }
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -210,7 +235,7 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
 
     // read from firebase
     public void readFirebase() {
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -253,26 +278,26 @@ public class UpcomingTrip extends AppCompatActivity implements NavigationView.On
                 super.run();
                 Log.i("tag","thread");
 
-                boolean flag = false;
+//                boolean flag = false;
                 for (Trip firebaseTrip : firebaseTrips) {
 
                     for (Trip roomTrip : roomTrips) {
                         if(roomTrip.getTrip_id() == firebaseTrip.getTrip_id()) {
                             tripViewModel.update(firebaseTrip);
-                            flag = true;
+//                            flag = true;
                         }
                     }
 
-                    if(!flag) {
-                        tripViewModel.insert(firebaseTrip);
-                    }
+//                    if(!flag) {
+//                        tripViewModel.insert(firebaseTrip);
+//                    }
 
-                    flag = false;
+//                    flag = false;
                 }
 
 
                 for (Trip roomTrip : roomTrips) {
-                     myRef.child(roomTrip.getTrip_id()+"").setValue(roomTrip);
+                     myRef.child(userId).child(roomTrip.getTrip_id()+"").setValue(roomTrip);
                 }
                 Log.i("tag",firebaseTrips.length +"");
                 Log.i("tag",roomTrips.length + "");

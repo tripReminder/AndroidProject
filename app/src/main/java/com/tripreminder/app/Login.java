@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,6 +37,9 @@ public class Login extends AppCompatActivity {
     private static  final String MY_PREFS_NAME= "Shared prefrence";
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+    TextView googlebtn,signUpTxt;
+    ImageView google;
+    TextView forgetPss;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -49,6 +54,46 @@ public class Login extends AppCompatActivity {
         Email = findViewById(R.id.emailTxt);
         Password = findViewById(R.id.passTxt);
         btnLogin = findViewById(R.id.loginBtn);
+        googlebtn = findViewById(R.id.googleTxt);
+        signUpTxt = findViewById(R.id.signupTxt);
+        google = findViewById(R.id.googleImg);
+        forgetPss = findViewById(R.id.Forget);
+
+        googlebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInGmail();
+            }
+        });
+
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInGmail();
+            }
+        });
+
+        signUpTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this,RegisterUser.class);
+                startActivity(intent);
+            }
+        });
+
+        forgetPss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = Email.getText().toString().trim();
+                if(TextUtils.isEmpty(email))
+                {
+                    Email.setError("Please enter your email here");
+                }
+                else {
+                    forgetPasswordBtn();
+                }
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +124,7 @@ public class Login extends AppCompatActivity {
                                 editor.apply();
 
                                 Toast.makeText(Login.this, "Login done", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), TripsHistory.class));
+                                startActivity(new Intent(getApplicationContext(), UpcomingTrip.class));
                             } else {
                                 // Toast.makeText(Login.this, "You did not enter a username", Toast.LENGTH_SHORT).show();
 
@@ -149,7 +194,7 @@ public class Login extends AppCompatActivity {
                             editor.apply();
 
                             Toast.makeText(Login.this, "Login done", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), TripsHistory.class));
+                            startActivity(new Intent(getApplicationContext(), UpcomingTrip.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

@@ -33,7 +33,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#01AC9B"
+            android:background="#b3e9d3"
             app:layout_constraintTop_toTopOf="parent"
             app:title="Trip Reminder"
             app:titleTextColor="@color/cardview_light_background" />
